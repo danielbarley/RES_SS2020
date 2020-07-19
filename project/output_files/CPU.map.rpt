@@ -1,5 +1,5 @@
 Analysis & Synthesis report for CPU
-Sun Jul 19 23:35:01 2020
+Sun Jul 19 23:42:34 2020
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -45,7 +45,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Jul 19 23:35:01 2020       ;
+; Analysis & Synthesis Status        ; Successful - Sun Jul 19 23:42:34 2020       ;
 ; Quartus Prime Version              ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                      ; CPU                                         ;
 ; Top-level Entity Name              ; ALU                                         ;
@@ -153,25 +153,25 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+-------------+
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
-; Number detected on machine ; 12          ;
-; Maximum allowed            ; 12          ;
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 2           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 12          ;
+; Maximum used               ; 2           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-12        ;   0.0%      ;
+;     Processor 2            ;   0.0%      ;
 +----------------------------+-------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                    ;
-+----------------------------------+-----------------+-----------------+------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path             ; Library ;
-+----------------------------------+-----------------+-----------------+------------------------------------------+---------+
-; ALU.vhd                          ; yes             ; User VHDL File  ; /home/daniel/RES_SS_2020/project/ALU.vhd ;         ;
-+----------------------------------+-----------------+-----------------+------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                  ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                           ; Library ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------+---------+
+; ALU.vhd                          ; yes             ; User VHDL File  ; C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd ;         ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------+---------+
 
 
 +------------------------------------------------------------+
@@ -251,7 +251,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
 ; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; No         ; |ALU|Add0                  ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; No         ; |ALU|Mux6                  ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; No         ; |ALU|Mux7                  ;
 ; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |ALU|Add0                  ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
 
@@ -293,36 +293,36 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Sun Jul 19 23:34:55 2020
+    Info: Processing started: Sun Jul 19 23:42:13 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off CPU -c CPU
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
-Info (12021): Found 2 design units, including 1 entities, in source file ALU.vhd
-    Info (12022): Found design unit 1: ALU-behav File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 21
-    Info (12023): Found entity 1: ALU File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 6
-Info (12021): Found 2 design units, including 1 entities, in source file REG.vhd
-    Info (12022): Found design unit 1: reg-behav File: /home/daniel/RES_SS_2020/project/REG.vhd Line: 26
-    Info (12023): Found entity 1: reg File: /home/daniel/RES_SS_2020/project/REG.vhd Line: 5
+Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file alu.vhd
+    Info (12022): Found design unit 1: ALU-behav File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 21
+    Info (12023): Found entity 1: ALU File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 6
+Info (12021): Found 2 design units, including 1 entities, in source file reg.vhd
+    Info (12022): Found design unit 1: reg-behav File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG.vhd Line: 26
+    Info (12023): Found entity 1: reg File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG.vhd Line: 5
 Info (12127): Elaborating entity "ALU" for the top level hierarchy
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "flags[0]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[1]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[2]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[3]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[4]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
+    Warning (13410): Pin "flags[0]" is stuck at GND File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 73
+    Warning (13410): Pin "flags[1]" is stuck at GND File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 73
+    Warning (13410): Pin "flags[2]" is stuck at GND File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 73
+    Warning (13410): Pin "flags[3]" is stuck at GND File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 73
+    Warning (13410): Pin "flags[4]" is stuck at GND File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 73
 Info (286030): Timing-Driven Synthesis is running
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 1 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "reset" File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 10
+    Warning (15610): No output dependent on input pin "reset" File: C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/ALU.vhd Line: 10
 Info (21057): Implemented 84 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 22 input pins
     Info (21059): Implemented 16 output pins
     Info (21061): Implemented 46 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 9 warnings
-    Info: Peak virtual memory: 992 megabytes
-    Info: Processing ended: Sun Jul 19 23:35:01 2020
-    Info: Elapsed time: 00:00:06
-    Info: Total CPU time (on all processors): 00:00:14
+    Info: Peak virtual memory: 4793 megabytes
+    Info: Processing ended: Sun Jul 19 23:42:34 2020
+    Info: Elapsed time: 00:00:21
+    Info: Total CPU time (on all processors): 00:00:38
 
 
