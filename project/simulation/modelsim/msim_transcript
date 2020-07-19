@@ -12,7 +12,7 @@
 # 
 # vcom -2008 -work work {C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG.vhd}
 # Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:56:29 on Jul 20,2020
+# Start time: 01:20:00 on Jul 20,2020
 # vcom -reportprogress 300 -2008 -work work C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
@@ -20,12 +20,12 @@
 # -- Loading package NUMERIC_STD
 # -- Compiling entity REG
 # -- Compiling architecture behav of REG
-# End time: 00:56:29 on Jul 20,2020, Elapsed time: 0:00:00
+# End time: 01:20:00 on Jul 20,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vcom -2008 -work work {C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG_tb.vhd}
 # Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:56:29 on Jul 20,2020
+# Start time: 01:20:00 on Jul 20,2020
 # vcom -reportprogress 300 -2008 -work work C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG_tb.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
@@ -33,12 +33,12 @@
 # -- Loading package NUMERIC_STD
 # -- Compiling entity REG_tb
 # -- Compiling architecture arch of REG_tb
-# End time: 00:56:29 on Jul 20,2020, Elapsed time: 0:00:00
+# End time: 01:20:00 on Jul 20,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclone10lp -L rtl_work -L work -voptargs="+acc"  REG_tb
 # vsim -t 1ps -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclone10lp -L rtl_work -L work -voptargs=""+acc"" REG_tb 
-# Start time: 00:56:29 on Jul 20,2020
+# Start time: 01:20:00 on Jul 20,2020
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -55,5 +55,5 @@
 add wave -position end  sim:/reg_tb/uut/regs
 restart -f
 run -all
-# End time: 00:58:21 on Jul 20,2020, Elapsed time: 0:01:52
+# End time: 01:21:32 on Jul 20,2020, Elapsed time: 0:01:32
 # Errors: 0, Warnings: 0

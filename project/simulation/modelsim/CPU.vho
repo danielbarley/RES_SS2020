@@ -17,7 +17,7 @@
 -- PROGRAM "Quartus Prime"
 -- VERSION "Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition"
 
--- DATE "07/20/2020 00:56:11"
+-- DATE "07/20/2020 01:19:21"
 
 -- 
 -- Device: Altera 10CL025YU256C8G Package UFBGA256
