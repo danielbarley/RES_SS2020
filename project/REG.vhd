@@ -43,7 +43,7 @@ begin
 	begin
 		if rising_edge(clk) then
 			if wr_en_2 = '1' then
-	regs(to_integer(unsigned(addr_2))) <= data_2_in;
+				regs(to_integer(unsigned(addr_2))) <= data_2_in;
 			end if;
 		end if;
 	end process;
@@ -52,7 +52,7 @@ begin
 	begin
 		if rising_edge(clk) then
 			if rd_en_1 = '1' then
-	data_1_out <= regs(to_integer(unsigned(addr_1)));
+				data_1_out <= regs(to_integer(unsigned(addr_1)));
 			end if;
 		end if;
 	end process;
@@ -61,7 +61,7 @@ begin
 	begin
 		if rising_edge(clk) then
 			if rd_en_2 = '1' then
-	data_2_out <= regs(to_integer(unsigned(addr_2)));
+				data_2_out <= regs(to_integer(unsigned(addr_2)));
 			end if;
 		end if;
 	end process;
