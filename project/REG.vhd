@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
 
-entity reg is
+entity REG is
 	port (
 		clk : in std_logic;
 		reset : in std_logic;
@@ -21,9 +21,9 @@ entity reg is
 		data_1_out : out std_logic_vector(7 downto 0);
 		data_2_out : out std_logic_vector(7 downto 0)
 	);
-end entity reg;
+end entity REG;
 
-architecture behav of reg is
+architecture behav of REG is
 
 	type reg_file is array(7 downto 0) of std_logic_vector(7 downto 0);
 	signal regs : reg_file;
