@@ -59,12 +59,12 @@ begin
 		temp_flags <= "00000000";
 		if temp_out = "00000000" then
 			temp_flags(ZERO_FLAG) <= '1';
-		end if;
-		if temp_out(7) = '1' then
-			temp_flags(NEGATIVE_FLAG) <= '1';
-		end if;
-		if temp_out(7) = '0' then
-			temp_flags(POSITIVE_FLAG) <= '1';
+		else
+			if temp_out(7) = '1' then
+				temp_flags(NEGATIVE_FLAG) <= '1';
+			else
+				temp_flags(POSITIVE_FLAG) <= '1';
+			end if;
 		end if;
 	end process;
 

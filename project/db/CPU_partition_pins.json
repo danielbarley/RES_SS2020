@@ -72,6 +72,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
 					"name" : "op2[1]",
 					"strict" : false
 				},
