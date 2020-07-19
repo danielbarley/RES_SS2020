@@ -9,7 +9,7 @@ z2
 cModel Technology
 Z0 dC:/Daten/Uni Heidelberg/RES/RES_SS2020/project/simulation/modelsim
 Ereg
-Z1 w1595199030
+Z1 w1595200716
 Z2 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z4 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ VEPA4]Xg[>8fCBNGZ=T?RM1
 !s100 IMYF>LRB?SW0F2;fmaF[X2
 Z7 OV;C;10.5b;63
 33
-Z8 !s110 1595199389
+Z8 !s110 1595200800
 !i10b 1
-Z9 !s108 1595199389.000000
+Z9 !s108 1595200800.000000
 Z10 !s90 -reportprogress|300|-2008|-work|work|C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG.vhd|
 Z11 !s107 C:/Daten/Uni Heidelberg/RES/RES_SS2020/project/REG.vhd|
 !i113 1
@@ -37,8 +37,8 @@ R4
 DEx4 work 3 reg 0 22 EPA4]Xg[>8fCBNGZ=T?RM1
 l31
 L26
-VTJK@Baj7VlBM46JOK]];W1
-!s100 <2FQ:lGe^ClLH;TzIJR8m2
+VmZ8iV;gEY80fom<0fX>L_2
+!s100 2^3PAO<`M8G:z:d:3UhnK0
 R7
 33
 R8

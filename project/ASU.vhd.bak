@@ -2,7 +2,8 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
 
-entity REG is
+-- Address Storage Unit: specialized registers used to store addresses
+entity ASU is
 	port (
 		clk : in std_logic;
 		reset : in std_logic;
@@ -15,28 +16,33 @@ entity REG is
 		wr_en_1 : in std_logic;
 		wr_en_2 : in std_logic;
 		-- data in ports
-		data_1_in : in std_logic_vector(7 downto 0);
-		data_2_in : in std_logic_vector(7 downto 0);
+		data_1_in : in std_logic_vector(15 downto 0);
+		data_2_in : in std_logic_vector(15 downto 0);
 		-- data out ports
-		data_1_out : out std_logic_vector(7 downto 0);
-		data_2_out : out std_logic_vector(7 downto 0)
+		data_1_out : out std_logic_vector(15 downto 0);
+		data_2_out : out std_logic_vector(15 downto 0)
 	);
-end entity REG;
+end entity ASU;
 
-architecture behav of REG is
+architecture behav of ASU is
 
-	type reg_file is array(7 downto 0) of std_logic_vector(7 downto 0);
+	type reg_file is array(7 downto 0) of std_logic_vector(15 downto 0);
 	signal regs : reg_file;
 
 begin
 
-	input: process (clk)
+	input1: process (clk)
 	begin
 		if rising_edge(clk) then
 			if wr_en_1 = '1' then
 				regs(to_integer(unsigned(addr_1))) <= data_1_in;
 			end if;
-			
+		end if;
+	end process;
+
+	input2: process (clk)
+	begin
+		if rising_edge(clk) then
 			if wr_en_2 = '1' then
 				regs(to_integer(unsigned(addr_2))) <= data_2_in;
 			end if;

@@ -31,18 +31,13 @@ architecture behav of ASU is
 
 begin
 
-	input1: process (clk)
+	input: process (clk)
 	begin
 		if rising_edge(clk) then
 			if wr_en_1 = '1' then
 				regs(to_integer(unsigned(addr_1))) <= data_1_in;
 			end if;
-		end if;
-	end process;
-
-	input2: process (clk)
-	begin
-		if rising_edge(clk) then
+			
 			if wr_en_2 = '1' then
 				regs(to_integer(unsigned(addr_2))) <= data_2_in;
 			end if;
