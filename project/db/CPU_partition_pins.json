@@ -36,6 +36,18 @@
 					"strict" : false
 				},
 				{
+					"name" : "flags[5]",
+					"strict" : false
+				},
+				{
+					"name" : "flags[6]",
+					"strict" : false
+				},
+				{
+					"name" : "flags[7]",
+					"strict" : false
+				},
+				{
 					"name" : "ins[0]",
 					"strict" : false
 				},
