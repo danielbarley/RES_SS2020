@@ -1,15 +1,15 @@
-Fitter Status : Successful - Mon Jul 20 01:19:11 2020
+Fitter Status : Successful - Mon Jul 20 01:52:04 2020
 Quartus Prime Version : 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 Revision Name : CPU
-Top-level Entity Name : REG
+Top-level Entity Name : ALU
 Family : Cyclone 10 LP
 Device : 10CL025YU256C8G
 Timing Models : Final
-Total logic elements : 175 / 24,624 ( < 1 % )
-    Total combinational functions : 168 / 24,624 ( < 1 % )
-    Dedicated logic registers : 80 / 24,624 ( < 1 % )
-Total registers : 80
-Total pins : 44 / 151 ( 29 % )
+Total logic elements : 37 / 24,624 ( < 1 % )
+    Total combinational functions : 37 / 24,624 ( < 1 % )
+    Dedicated logic registers : 11 / 24,624 ( < 1 % )
+Total registers : 11
+Total pins : 38 / 151 ( 25 % )
 Total virtual pins : 0
 Total memory bits : 0 / 608,256 ( 0 % )
 Embedded Multiplier 9-bit elements : 0 / 132 ( 0 % )
