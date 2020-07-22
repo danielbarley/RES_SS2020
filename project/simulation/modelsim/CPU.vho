@@ -17,7 +17,7 @@
 -- PROGRAM "Quartus Prime"
 -- VERSION "Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition"
 
--- DATE "07/20/2020 01:52:08"
+-- DATE "07/22/2020 20:01:12"
 
 -- 
 -- Device: Altera 10CL025YU256C8G Package UFBGA256
@@ -84,8 +84,8 @@ ENTITY 	ALU IS
 	op1 : IN std_logic_vector(7 DOWNTO 0);
 	op2 : IN std_logic_vector(7 DOWNTO 0);
 	ins : IN std_logic_vector(3 DOWNTO 0);
-	output : OUT std_logic_vector(7 DOWNTO 0);
-	flags : OUT std_logic_vector(7 DOWNTO 0)
+	output : BUFFER std_logic_vector(7 DOWNTO 0);
+	flags : BUFFER std_logic_vector(7 DOWNTO 0)
 	);
 END ALU;
 

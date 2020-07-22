@@ -4,6 +4,9 @@ use IEEE.numeric_std.ALL;
 
 -- Address Storage Unit: specialized registers used to store addresses
 entity ASU is
+	generic (
+		address_width : integer
+	);
 	port (
 		clk : in std_logic;
 		reset : in std_logic;
@@ -26,7 +29,7 @@ end entity ASU;
 
 architecture behav of ASU is
 
-	type reg_file is array(7 downto 0) of std_logic_vector(15 downto 0);
+	type reg_file is array(7 downto 0) of std_logic_vector(address_width - 1 downto 0);
 	signal regs : reg_file;
 
 begin

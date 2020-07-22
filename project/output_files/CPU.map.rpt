@@ -1,5 +1,5 @@
 Analysis & Synthesis report for CPU
-Mon Jul 20 01:52:01 2020
+Wed Jul 22 20:01:05 2020
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -45,7 +45,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Jul 20 01:52:01 2020       ;
+; Analysis & Synthesis Status        ; Successful - Wed Jul 22 20:01:05 2020       ;
 ; Quartus Prime Version              ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                      ; CPU                                         ;
 ; Top-level Entity Name              ; ALU                                         ;
@@ -294,7 +294,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Mon Jul 20 01:51:55 2020
+    Info: Processing started: Wed Jul 22 20:00:59 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off CPU -c CPU
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
@@ -337,8 +337,8 @@ Info (21057): Implemented 84 device resources after synthesis - the final resour
     Info (21059): Implemented 16 output pins
     Info (21061): Implemented 46 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 9 warnings
-    Info: Peak virtual memory: 990 megabytes
-    Info: Processing ended: Mon Jul 20 01:52:01 2020
+    Info: Peak virtual memory: 993 megabytes
+    Info: Processing ended: Wed Jul 22 20:01:05 2020
     Info: Elapsed time: 00:00:06
     Info: Total CPU time (on all processors): 00:00:13
 
