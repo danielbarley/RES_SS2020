@@ -31,64 +31,16 @@ architecture behav of FIFO is
 	signal queue : fifo;
 	signal head : integer range 0 to depth - 1 := 0;
 	signal tail : integer range 0 to depth - 1 := 0;
-	shared variable full : integer range 0 to depth := 0;
+	shared variable count : integer range 0 to depth := 0;
 
 begin
 	
-	/*que: process(clk)
+	wr: process(clk)
 	
 	begin
 	
 		if rising_edge(clk) then 
 			if reset = '0' then
-			
-				if rden = '1' then
-					if is_empty = '0' then 
-						data_out <= queue(head);
-						full := full - 1;
-						if head = depth - 1 then
-							head <= 0;
-						else
-							head <= head + 1;
-						end if;
-					end if;
-				end if;
-					
-				if wren = '1' then
-					if is_full = '0' then
-						full := full + 1;
-						queue(tail) <= data_in;
-						if tail = depth - 1 then
-							tail <= 0;
-						else
-							tail <= tail + 1;
-						end if;
-					end if;
-				end if;
-				
-			end if;
-			
-			if(reset = '1') then 
-				queue <= (others => (others => '0'));
-			end if;
-			
-		end if;
-	
-	end process;*/
-	
-	process(clk)
-	
-	begin
-	
-		if rising_edge(clk) then 
-			if reset = '0' then
-			
-				if rden = '1' then
-					if is_empty = '0' then 
-						data_out <= queue(head);
-					end if;
-				end if;
-					
 				if wren = '1' then
 					if is_full = '0' then
 						queue(tail) <= data_in;
@@ -105,16 +57,26 @@ begin
 	
 	end process;
 	
-	que: process(clk)
+	rd: process(clk)
+	begin
+		if rising_edge(clk) then
+			if rden = '1' then
+				if is_empty = '0' then 
+					data_out <= queue(head);
+				end if;
+			end if;
+		end if;
+		
+	end process;
 	
+	pointer: process(clk)
 	begin
 	
 		if rising_edge(clk) then 
 			if reset = '0' then
-			
 				if rden = '1' then
 					if is_empty = '0' then 
-						full := full - 1;
+						count := count - 1;
 						if head = depth - 1 then
 							head <= 0;
 						else
@@ -122,10 +84,10 @@ begin
 						end if;
 					end if;
 				end if;
-					
+				
 				if wren = '1' then
 					if is_full = '0' then
-						full := full + 1;
+						count := count + 1;
 						if tail = depth - 1 then
 							tail <= 0;
 						else
@@ -133,8 +95,13 @@ begin
 						end if;
 					end if;
 				end if;
-				
-			end if;			
+			end if;
+		
+			if reset = '1' then
+				head <= 0;
+				tail <= 0;
+				count := 0;
+			end if;
 		end if;
 	
 	end process;
@@ -142,16 +109,18 @@ begin
 	flags: process(clk, head, tail)
 	begin
 	
-		if full = 0 then 
+	if rising_edge(clk) then
+		if count = 0 then 
 			is_empty <= '1';
 		else
 			is_empty <= '0';
 		end if;
-		if full = depth then 
+		if count = depth then 
 			is_full <= '1';
 		else
 			is_full <= '0';
 		end if;
+	end if;
 	
 	end process;
 

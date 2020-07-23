@@ -55,7 +55,7 @@ begin
 	process
 	begin
 	
-		wait until Clk'event and Clk='0';
+		wait until Clk'event and Clk='1';
 		
 		wren <= '1';
 		data_in <= (5 downto 2 => '1', others => '0');
@@ -74,6 +74,9 @@ begin
 		wait for 2 * clk_period;
 		wren <= '0';
 		wait for 10*clk_period;
+		
+		reset <= '1';
+		wait for 5*clk_period;
 		
 		
 		
