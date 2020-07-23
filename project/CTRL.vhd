@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
+use IEEE.std_logic_unsigned.ALL;
 
 entity CTRL is
 	port (
@@ -67,11 +68,11 @@ architecture behav of CTRL is
 			wr_en_1 : in std_logic;
 			wr_en_2 : in std_logic;
 			-- data in ports
-			data_1_in : in std_logic_vector(15 downto 0);
-			data_2_in : in std_logic_vector(15 downto 0);
+			data_1_in : in std_logic_vector(address_width - 1 downto 0);
+			data_2_in : in std_logic_vector(address_width - 1 downto 0);
 			-- data out ports
-			data_1_out : out std_logic_vector(15 downto 0);
-			data_2_out : out std_logic_vector(15 downto 0)
+			data_1_out : out std_logic_vector(address_width - 1 downto 0);
+			data_2_out : out std_logic_vector(address_width - 1 downto 0)
 		);
 	end component ASU;
 
@@ -98,6 +99,11 @@ architecture behav of CTRL is
 		);
 	end component ROM;
 	component FIFO is
+		generic
+		(
+			data_width : integer;
+			depth : integer
+		);
 		port
 		(
 			-- control
@@ -106,8 +112,8 @@ architecture behav of CTRL is
 			wren : in std_logic;
 			rden : in std_logic;
 			-- data ports
-			data_in : in std_logic_vector (23 downto 0);
-			data_out : out std_logic_vector (23 downto 0);
+			data_in : in std_logic_vector (data_width - 1 downto 0);
+			data_out : out std_logic_vector (data_width - 1 downto 0);
 			-- signals
 			is_empty : out std_logic;
 			is_full : out std_logic
@@ -124,12 +130,52 @@ architecture behav of CTRL is
 	-- current instruction register used by decoder
 	signal IR : std_logic_vector(INSTRUCTION_WIDTH - 1 downto 0);
 	-- current program counter for fetch pipeline
-	signal PC_FETCH : std_logic_vector(INS_ADDRESS_WIDTH - 1 downto 0);
+	signal PC_FETCH : std_logic_vector(INS_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
 	-- current program counter for decode logic
-	signal PC_DECODE : std_logic_vector(INS_ADDRESS_WIDTH - 1 downto 0);
+	signal PC_DECODE : std_logic_vector(INS_ADDRESS_WIDTH - 1 downto 0) := (others => '0');
+
+	-- Signals needed for Fetch - Decode - Execute pipeline
+	signal INSTRUCTION_FIFO_FULL : std_logic := 0;
+	signal INSTRUCTION_FIFO_EMPTY : std_logic := 0;
+	signal ALU_BUSY : std_logic := 0;
+	signal LOAD_STORE_BUSY : std_logic := 0;
+	signal RESET_FETCH : std_logic := 0;
+
+	signal INSTRUCTION_FIFO_WREN : std_logic := '0';
+	signal INSTRUCTION_FIFO_RDEN : std_logic := '0';
+
+	-- Stack Pointer
+	signal SP : std_logic_vector(INS_ADDRESS_WIDTH - 1 downto 0);
 
 begin
 
+	-- fetch logic is simple: fetch instructions as soon as fifo is not full
+	-- increment PC afterwards, if branch occurs PC is reset and FIFO is cleared
+	-- PC is updated to jump location and fetching continues next cycle
+	fetch : process (clk)
+	begin
+		if rising_edge(clk) then
+			if (RESET_FETCH = '1') then
+				PC_FETCH <= PC_BRANCH;
+			else
+				if (INSTRUCTION_FIFO_FULL = '0') then
+					INSTRUCTION_FIFO_WREN <= '1';
+					PC_FETCH <= PC_FETCH + 1;
+				else
+					INSTRUCTION_FIFO_RDEN <= '0';
+				end if;
+			end if;
+		end if;
+	end process;
+
+	-- Decode state machine
+	decode : process (clk)
+	begin
+		if rising_edge(clk) then
+			case IR is
+				
+			end case;
+		end if;
+	end process;
 
 end behav;
-
