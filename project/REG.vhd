@@ -7,16 +7,13 @@ entity REG is
 		clk : in std_logic;
 		reset : in std_logic;
 		-- register addresses (8 regs -> 3bit)
-		addr_1 : in std_logic_vector(2 downto 0);
-		addr_2 : in std_logic_vector(2 downto 0);
+		addr_wb : in std_logic_vector(2 downto 0); -- write back address
+		addr_1 : in std_logic_vector(2 downto 0); -- address for operand 1
+		addr_2 : in std_logic_vector(2 downto 0); -- address for operand 2
 		-- control signals
-		rd_en_1 : in std_logic;
-		rd_en_2 : in std_logic;
-		wr_en_1 : in std_logic;
-		wr_en_2 : in std_logic;
+		wb_en : in std_logic; -- enable write back
 		-- data in ports
-		data_1_in : in std_logic_vector(7 downto 0);
-		data_2_in : in std_logic_vector(7 downto 0);
+		wb_in : in std_logic_vector(7 downto 0); -- writeback data
 		-- data out ports
 		data_1_out : out std_logic_vector(7 downto 0);
 		data_2_out : out std_logic_vector(7 downto 0)
@@ -33,12 +30,8 @@ begin
 	input: process (clk)
 	begin
 		if rising_edge(clk) then
-			if wr_en_1 = '1' then
-				regs(to_integer(unsigned(addr_1))) <= data_1_in;
-			end if;
-			
-			if wr_en_2 = '1' then
-				regs(to_integer(unsigned(addr_2))) <= data_2_in;
+			if wb_en = '1' then
+				regs(to_integer(unsigned(addr_wb))) <= wb_in;
 			end if;
 		end if;
 	end process;
@@ -46,18 +39,14 @@ begin
 	output1: process (clk)
 	begin
 		if rising_edge(clk) then
-			if rd_en_1 = '1' then
-				data_1_out <= regs(to_integer(unsigned(addr_1)));
-			end if;
+			data_1_out <= regs(to_integer(unsigned(addr_1)));
 		end if;
 	end process;
 
 	output2: process (clk)
 	begin
 		if rising_edge(clk) then
-			if rd_en_2 = '1' then
-				data_2_out <= regs(to_integer(unsigned(addr_2)));
-			end if;
+			data_2_out <= regs(to_integer(unsigned(addr_2)));
 		end if;
 	end process;
 
