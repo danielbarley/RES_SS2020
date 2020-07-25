@@ -1,14 +1,14 @@
-Analysis & Synthesis Status : Successful - Wed Jul 22 20:01:05 2020
+Analysis & Synthesis Status : Failed - Fri Jul 24 19:06:35 2020
 Quartus Prime Version : 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 Revision Name : CPU
-Top-level Entity Name : ALU
+Top-level Entity Name : CTRL
 Family : Cyclone 10 LP
-Total logic elements : 38
-    Total combinational functions : 37
-    Dedicated logic registers : 11
-Total registers : 11
-Total pins : 38
-Total virtual pins : 0
-Total memory bits : 0
-Embedded Multiplier 9-bit elements : 0
-Total PLLs : 0
+Total logic elements : N/A until Partition Merge
+    Total combinational functions : N/A until Partition Merge
+    Dedicated logic registers : N/A until Partition Merge
+Total registers : N/A until Partition Merge
+Total pins : N/A until Partition Merge
+Total virtual pins : N/A until Partition Merge
+Total memory bits : N/A until Partition Merge
+Embedded Multiplier 9-bit elements : N/A until Partition Merge
+Total PLLs : N/A until Partition Merge

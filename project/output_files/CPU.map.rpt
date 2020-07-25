@@ -1,5 +1,5 @@
 Analysis & Synthesis report for CPU
-Wed Jul 22 20:01:05 2020
+Fri Jul 24 19:06:35 2020
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -10,15 +10,7 @@ Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Analysis & Synthesis Source Files Read
-  6. Analysis & Synthesis Resource Usage Summary
-  7. Analysis & Synthesis Resource Utilization by Entity
-  8. Registers Removed During Synthesis
-  9. General Register Statistics
- 10. Multiplexer Restructuring Statistics (Restructuring Performed)
- 11. Post-Synthesis Netlist Statistics for Top Partition
- 12. Elapsed Time Per Partition
- 13. Analysis & Synthesis Messages
+  5. Analysis & Synthesis Messages
 
 
 
@@ -45,20 +37,20 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Jul 22 20:01:05 2020       ;
+; Analysis & Synthesis Status        ; Failed - Fri Jul 24 19:06:35 2020           ;
 ; Quartus Prime Version              ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                      ; CPU                                         ;
-; Top-level Entity Name              ; ALU                                         ;
+; Top-level Entity Name              ; CTRL                                        ;
 ; Family                             ; Cyclone 10 LP                               ;
-; Total logic elements               ; 38                                          ;
-;     Total combinational functions  ; 37                                          ;
-;     Dedicated logic registers      ; 11                                          ;
-; Total registers                    ; 11                                          ;
-; Total pins                         ; 38                                          ;
-; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 0                                           ;
-; Embedded Multiplier 9-bit elements ; 0                                           ;
-; Total PLLs                         ; 0                                           ;
+; Total logic elements               ; N/A until Partition Merge                   ;
+;     Total combinational functions  ; N/A until Partition Merge                   ;
+;     Dedicated logic registers      ; N/A until Partition Merge                   ;
+; Total registers                    ; N/A until Partition Merge                   ;
+; Total pins                         ; N/A until Partition Merge                   ;
+; Total virtual pins                 ; N/A until Partition Merge                   ;
+; Total memory bits                  ; N/A until Partition Merge                   ;
+; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                   ;
+; Total PLLs                         ; N/A until Partition Merge                   ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -68,7 +60,7 @@ https://fpgasoftware.intel.com/eula.
 ; Option                                                           ; Setting            ; Default Value      ;
 +------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                           ; 10CL025YU256C8G    ;                    ;
-; Top-level entity name                                            ; ALU                ; CPU                ;
+; Top-level entity name                                            ; CTRL               ; CPU                ;
 ; Family name                                                      ; Cyclone 10 LP      ; Cyclone V          ;
 ; VHDL Show LMF Mapping Messages                                   ; Off                ;                    ;
 ; VHDL Version                                                     ; VHDL_2008          ; VHDL_1993          ;
@@ -158,134 +150,11 @@ https://fpgasoftware.intel.com/eula.
 ; Maximum allowed            ; 12          ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 12          ;
+; Maximum used               ; 1           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-12        ;   0.0%      ;
 +----------------------------+-------------+
-
-
-+---------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                    ;
-+----------------------------------+-----------------+-----------------+------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path             ; Library ;
-+----------------------------------+-----------------+-----------------+------------------------------------------+---------+
-; ALU.vhd                          ; yes             ; User VHDL File  ; /home/daniel/RES_SS_2020/project/ALU.vhd ;         ;
-+----------------------------------+-----------------+-----------------+------------------------------------------+---------+
-
-
-+------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                ;
-+---------------------------------------------+--------------+
-; Resource                                    ; Usage        ;
-+---------------------------------------------+--------------+
-; Estimated Total logic elements              ; 38           ;
-;                                             ;              ;
-; Total combinational functions               ; 37           ;
-; Logic element usage by number of LUT inputs ;              ;
-;     -- 4 input functions                    ; 18           ;
-;     -- 3 input functions                    ; 17           ;
-;     -- <=2 input functions                  ; 2            ;
-;                                             ;              ;
-; Logic elements by mode                      ;              ;
-;     -- normal mode                          ; 29           ;
-;     -- arithmetic mode                      ; 8            ;
-;                                             ;              ;
-; Total registers                             ; 11           ;
-;     -- Dedicated logic registers            ; 11           ;
-;     -- I/O registers                        ; 0            ;
-;                                             ;              ;
-; I/O pins                                    ; 38           ;
-;                                             ;              ;
-; Embedded Multiplier 9-bit elements          ; 0            ;
-;                                             ;              ;
-; Maximum fan-out node                        ; ins[0]~input ;
-; Maximum fan-out                             ; 17           ;
-; Total fan-out                               ; 198          ;
-; Average fan-out                             ; 1.60         ;
-+---------------------------------------------+--------------+
-
-
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                      ;
-+----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Entity Name ; Library Name ;
-+----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-; |ALU                       ; 37 (37)             ; 11 (11)                   ; 0           ; 0            ; 0       ; 0         ; 38   ; 0            ; |ALU                ; ALU         ; work         ;
-+----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
-
-
-+--------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                             ;
-+---------------------------------------+----------------------------------------+
-; Register name                         ; Reason for Removal                     ;
-+---------------------------------------+----------------------------------------+
-; flags[4]~reg0                         ; Stuck at GND due to stuck port data_in ;
-; flags[3]~reg0                         ; Stuck at GND due to stuck port data_in ;
-; flags[2]~reg0                         ; Stuck at GND due to stuck port data_in ;
-; flags[1]~reg0                         ; Stuck at GND due to stuck port data_in ;
-; flags[0]~reg0                         ; Stuck at GND due to stuck port data_in ;
-; Total Number of Removed Registers = 5 ;                                        ;
-+---------------------------------------+----------------------------------------+
-
-
-+------------------------------------------------------+
-; General Register Statistics                          ;
-+----------------------------------------------+-------+
-; Statistic                                    ; Value ;
-+----------------------------------------------+-------+
-; Total registers                              ; 11    ;
-; Number of registers using Synchronous Clear  ; 0     ;
-; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 0     ;
-; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 0     ;
-; Number of registers using Preset             ; 0     ;
-+----------------------------------------------+-------+
-
-
-+------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                           ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
-; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; No         ; |ALU|Add0                  ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; No         ; |ALU|Mux6                  ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |ALU|Add0                  ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
-
-
-+-----------------------------------------------------+
-; Post-Synthesis Netlist Statistics for Top Partition ;
-+-----------------------+-----------------------------+
-; Type                  ; Count                       ;
-+-----------------------+-----------------------------+
-; boundary_port         ; 38                          ;
-; cycloneiii_ff         ; 11                          ;
-;     plain             ; 11                          ;
-; cycloneiii_lcell_comb ; 38                          ;
-;     arith             ; 8                           ;
-;         3 data inputs ; 8                           ;
-;     normal            ; 30                          ;
-;         0 data inputs ; 1                           ;
-;         2 data inputs ; 2                           ;
-;         3 data inputs ; 9                           ;
-;         4 data inputs ; 18                          ;
-;                       ;                             ;
-; Max LUT depth         ; 5.70                        ;
-; Average LUT depth     ; 4.19                        ;
-+-----------------------+-----------------------------+
-
-
-+-------------------------------+
-; Elapsed Time Per Partition    ;
-+----------------+--------------+
-; Partition Name ; Elapsed Time ;
-+----------------+--------------+
-; Top            ; 00:00:00     ;
-+----------------+--------------+
 
 
 +-------------------------------+
@@ -294,13 +163,24 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Wed Jul 22 20:00:59 2020
+    Info: Processing started: Fri Jul 24 19:06:29 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off CPU -c CPU
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
-Info (12021): Found 0 design units, including 0 entities, in source file CTRL.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file FIFO_tb.vhd
+    Info (12022): Found design unit 1: FIFO_tb-arch File: /home/daniel/RES_SS_2020/project/FIFO_tb.vhd Line: 8
+    Info (12023): Found entity 1: FIFO_tb File: /home/daniel/RES_SS_2020/project/FIFO_tb.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file FIFO.vhd
+    Info (12022): Found design unit 1: FIFO-behav File: /home/daniel/RES_SS_2020/project/FIFO.vhd Line: 28
+    Info (12023): Found entity 1: FIFO File: /home/daniel/RES_SS_2020/project/FIFO.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file REG_tb.vhd
+    Info (12022): Found design unit 1: REG_tb-arch File: /home/daniel/RES_SS_2020/project/REG_tb.vhd Line: 8
+    Info (12023): Found entity 1: REG_tb File: /home/daniel/RES_SS_2020/project/REG_tb.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file CTRL.vhd
+    Info (12022): Found design unit 1: CTRL-behav File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 14
+    Info (12023): Found entity 1: CTRL File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file ASU.vhd
-    Info (12022): Found design unit 1: ASU-behav File: /home/daniel/RES_SS_2020/project/ASU.vhd Line: 27
+    Info (12022): Found design unit 1: ASU-behav File: /home/daniel/RES_SS_2020/project/ASU.vhd Line: 30
     Info (12023): Found entity 1: ASU File: /home/daniel/RES_SS_2020/project/ASU.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file ALU_tb.vhd
     Info (12022): Found design unit 1: ALU_tb-arch File: /home/daniel/RES_SS_2020/project/ALU_tb.vhd Line: 9
@@ -320,26 +200,24 @@ Info (12021): Found 2 design units, including 1 entities, in source file ROM.vhd
 Info (12021): Found 2 design units, including 1 entities, in source file CLK.vhd
     Info (12022): Found design unit 1: clk-SYN File: /home/daniel/RES_SS_2020/project/CLK.vhd Line: 54
     Info (12023): Found entity 1: CLK File: /home/daniel/RES_SS_2020/project/CLK.vhd Line: 43
-Info (12127): Elaborating entity "ALU" for the top level hierarchy
-Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "flags[0]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[1]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[2]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[3]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-    Warning (13410): Pin "flags[4]" is stuck at GND File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 73
-Info (286030): Timing-Driven Synthesis is running
-Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
-    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 1 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "reset" File: /home/daniel/RES_SS_2020/project/ALU.vhd Line: 10
-Info (21057): Implemented 84 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 22 input pins
-    Info (21059): Implemented 16 output pins
-    Info (21061): Implemented 46 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 9 warnings
-    Info: Peak virtual memory: 993 megabytes
-    Info: Processing ended: Wed Jul 22 20:01:05 2020
-    Info: Elapsed time: 00:00:06
-    Info: Total CPU time (on all processors): 00:00:13
+Info (12127): Elaborating entity "CTRL" for the top level hierarchy
+Warning (10541): VHDL Signal Declaration warning at CTRL.vhd(10): used implicit default value for signal "ouput" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 10
+Warning (10541): VHDL Signal Declaration warning at CTRL.vhd(129): used implicit default value for signal "IR" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 129
+Warning (10540): VHDL Signal Declaration warning at CTRL.vhd(135): used explicit default value for signal "PC_BRANCH" because signal was never assigned a value File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 135
+Warning (10540): VHDL Signal Declaration warning at CTRL.vhd(138): used explicit default value for signal "INSTRUCTION_FIFO_FULL" because signal was never assigned a value File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 138
+Warning (10540): VHDL Signal Declaration warning at CTRL.vhd(139): used explicit default value for signal "INSTRUCTION_FIFO_EMPTY" because signal was never assigned a value File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 139
+Warning (10540): VHDL Signal Declaration warning at CTRL.vhd(142): used explicit default value for signal "RESET_FETCH" because signal was never assigned a value File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 142
+Warning (10036): Verilog HDL or VHDL warning at CTRL.vhd(144): object "INSTRUCTION_FIFO_WREN" assigned a value but never read File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 144
+Warning (10036): Verilog HDL or VHDL warning at CTRL.vhd(145): object "INSTRUCTION_FIFO_RDEN" assigned a value but never read File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 145
+Warning (10540): VHDL Signal Declaration warning at CTRL.vhd(156): used explicit default value for signal "ALU_ENABLE" because signal was never assigned a value File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 156
+Warning (10036): Verilog HDL or VHDL warning at CTRL.vhd(159): object "REG_ADDR_1" assigned a value but never read File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 159
+Warning (10036): Verilog HDL or VHDL warning at CTRL.vhd(160): object "REG_ADDR_2" assigned a value but never read File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 160
+Error (10313): VHDL Case Statement error at CTRL.vhd(205): Case Statement choices must cover all possible values of expression File: /home/daniel/RES_SS_2020/project/CTRL.vhd Line: 205
+Error (12153): Can't elaborate top-level user hierarchy
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 2 errors, 12 warnings
+    Error: Peak virtual memory: 911 megabytes
+    Error: Processing ended: Fri Jul 24 19:06:35 2020
+    Error: Elapsed time: 00:00:06
+    Error: Total CPU time (on all processors): 00:00:13
 
 
