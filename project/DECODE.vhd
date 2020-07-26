@@ -10,17 +10,27 @@ entity DECODE is
 		-- control signals
 		clk : in std_logic;
 		-- I/O
+		-- Inputs from previous stage
 		pc_in : in std_logic_vector(addr_width - 1 downto 0);
 		ins_in : in std_logic_vector(23 downto 0);
+		-- inputs from write back stage
 		wb_data : in std_logic_vector(7 downto 0);
 		wb_addr : in std_logic_vector(2 downto 0);
 		wb_enable : in std_logic;
+		-- opcode/tr from execute stage needed for stalling pipeline
+		opcode_execute : in std_logic_vector(4 downto 0);
+		tr_exectute : in std_logic_vector(3 downto 0);
+		-- control for other stages
+		stall_out : out std_logic;
+		-- output for EXECUTE stage
 		pc_out : out std_logic_vector(addr_width - 1 downto 0);
-		ins_out : out std_logic_vector(23 downto 0);
-		op0_out : out std_logic_vector(addr_width - 1 downto 0);
+		opcode_out : out std_logic_vector(4 downto 0);
+		tr_out : out std_logic_vector(2 downto 0);
+		s1_out : out std_logic_vector(2 downto 0);
+		s2_out : out std_logic_vector(2 downto 0);
+		imm_out : out std_logic_vector(9 downto 0);
 		op1_out : out std_logic_vector(7 downto 0);
-		op2_out : out std_logic_vector(7 downto 0);
-		stall_out : out std_logic
+		op2_out : out std_logic_vector(7 downto 0)
 	);
 end entity DECODE;
 
@@ -48,28 +58,61 @@ architecture behav of DECODE is
 	signal ins : std_logic_vector(23 downto 0);
 
 	-- dissect instruction into components
-	signal opcode : std_logic_vector(3 downto 0); -- opcode
+	signal opcode : std_logic_vector(4 downto 0); -- opcode
 	signal tr : std_logic_vector(2 downto 0); -- target register use 000 for masking
 	signal s1 : std_logic_vector(2 downto 0); -- register of first operand
 	signal s2 : std_logic_vector(2 downto 0); -- register of second operand
+	signal imm : std_logic_vector(9 downto 0);
 
 	signal clk_reg : std_logic := '0';
 	signal reset_reg : std_logic := '0';
+	signal stall : std_logic := '0';
 
 begin
 
 	DATA_REG : REG port map (clk_reg, reset_reg, wb_addr, s1, s2, wb_enable, wb_data, op1_out, op2_out);
 
+	-- invert register clock so data becomes available druing duty cycle
 	clk_reg <= not clk;
 	pc_out <= pc;
+	-- when stalling send NOP to EXECUTE stage
+	with stall select
+		opcode_out <= opcode when '0',
+			      "00000" when others;
+	with stall select
+		tr_out <= tr when '0',
+			  "000" when others;
+	s1_out <= s1;
+	s2_out <= s2;
+	imm_out <= imm;
+	stall_out <= stall;
 
-	process (clk)
+	update_input : process (clk)
 	begin
 		if (rising_edge(clk)) then
-			pc <= pc_in;
-			ins <= ins_in;
+			if (stall = '0') then
+				pc <= pc_in;
+				opcode <= ins_in(23 downto 19);
+				tr <= ins_in(18 downto 16);
+				s1 <= ins_in(15 downto 13);
+				s2 <= ins_in(12 downto 10);
+			end if;
+		end if;
+	end process;
+
+	-- check that no load in execute stage targets any register in decoded instruction
+	-- "10000" -> lda, "10001" -> ldi
+	control : process (tr, s1, s2, tr_exectute, opcode_execute)
+	begin
+		if ((opcode_execute = "10000") or (opcode_execute = "10001")) then
+			if ((tr_exectute = tr) or (tr_exectute = s1) or (tr_exectute = s2)) then
+				stall <= '1';
+			else
+				stall <= '0';
+			end if;
+		else
+			stall <= '0';
 		end if;
 	end process;
 
 end behav;
-
