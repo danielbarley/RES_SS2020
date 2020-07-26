@@ -23,6 +23,9 @@ architecture behav of ALU is
 	constant ZERO_FLAG : integer := 7; -- set if output is zero
 	constant NEGATIVE_FLAG : integer := 6; -- set if output is negative
 	constant POSITIVE_FLAG : integer := 5; -- set if output is positive
+	constant EQUAL_FLAG : integer := 4; -- set if operands are equal
+	constant LESS_FLAG : integer := 3; -- set if op1 < op2
+	constant GREATER_FLAG : integer := 2; -- set if op1 > op1
 	-- TODO: OVERFLOW_FLAG
 	-- TODO: CARRY_FLAG
 
@@ -65,6 +68,15 @@ begin
 			else
 				temp_flags(POSITIVE_FLAG) <= '1';
 			end if;
+		end if;
+		if (to_integer(unsigned(op1)) > to_integer(unsigned(op2))) then
+			temp_flags(GREATER_FLAG) <= '1';
+		end if;
+		if (to_integer(unsigned(op1)) < to_integer(unsigned(op2))) then
+			temp_flags(LESS_FLAG) <= '1';
+		end if;
+		if (to_integer(unsigned(op1)) = to_integer(unsigned(op2))) then
+			temp_flags(EQUAL_FLAG) <= '1';
 		end if;
 	end process;
 
