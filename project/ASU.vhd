@@ -19,11 +19,11 @@ entity ASU is
 		wr_en_1 : in std_logic;
 		wr_en_2 : in std_logic;
 		-- data in ports
-		data_1_in : in std_logic_vector(15 downto 0);
-		data_2_in : in std_logic_vector(15 downto 0);
+		data_1_in : in std_logic_vector(address_width - 1 downto 0);
+		data_2_in : in std_logic_vector(address_width - 1 downto 0);
 		-- data out ports
-		data_1_out : out std_logic_vector(15 downto 0);
-		data_2_out : out std_logic_vector(15 downto 0)
+		data_1_out : out std_logic_vector(address_width - 1 downto 0);
+		data_2_out : out std_logic_vector(address_width - 1 downto 0)
 	);
 end entity ASU;
 

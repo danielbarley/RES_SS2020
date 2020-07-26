@@ -74,6 +74,7 @@ begin
 	
 		if rising_edge(clk) then 
 			if reset = '0' then
+
 				if rden = '1' then
 					if is_empty = '0' then 
 						count := count - 1;
@@ -84,7 +85,7 @@ begin
 						end if;
 					end if;
 				end if;
-				
+
 				if wren = '1' then
 					if is_full = '0' then
 						count := count + 1;
@@ -101,9 +102,10 @@ begin
 				head <= 0;
 				tail <= 0;
 				count := 0;
+
 			end if;
 		end if;
-	
+
 	end process;
 	
 	flags: process(clk, head, tail)
@@ -125,8 +127,3 @@ begin
 	end process;
 
 end architecture;
-	
-	
-
-	
-	
