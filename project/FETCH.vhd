@@ -38,6 +38,7 @@ begin
 	INSTRUCTION_ROM : ROM port map (pc, clk, ins_out);
 
 	pc_inc_out <= std_logic_vector(unsigned(pc) + 1);
+	pc_out <= pc;
 
 	-- only update pc if no stall occurs
 	update_pc: process (clk)
