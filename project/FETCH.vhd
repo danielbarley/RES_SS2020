@@ -36,7 +36,7 @@ architecture behav of FETCH is
 
 begin
 
-	INSTRUCTION_ROM : ROM port map (pc, clk, ins_out);
+	INSTRUCTION_ROM : ROM port map (pc, clk_rom, ins_out);
 
 	clk_rom <= not clk;
 	pc_inc_out <= std_logic_vector(unsigned(pc) + 1);
