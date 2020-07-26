@@ -113,7 +113,7 @@ architecture behav of EXECUTE is
 
 begin
 
-	ALU1 : ALU port map (clk_alu, reset_alu, op1, op2, ins_alu, alu_out_out);
+	ALU1 : ALU port map (clk_alu, reset_alu, mux_imm_out, mux_op2_out, ins_alu, alu_out_out);
 	MUX_ALU_OP1 : MUX4x1 port map (op1, alu_out_memory, write_data_write_back, write_data_end, sel_mux_op1, mux_op1_out);
 	MUX_ALU_OP2 : MUX4x1 port map (op2, alu_out_memory, write_data_write_back, write_data_end, sel_mux_op2, mux_op2_out);
 	MUX_IMM : MUX2x1 port map (imm(7 downto 0), mux_op1_out, sel_mux_imm, mux_imm_out);
