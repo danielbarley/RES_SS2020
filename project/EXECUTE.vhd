@@ -35,7 +35,7 @@ entity EXECUTE is
 		tr_out : out std_logic_vector(2 downto 0);
 		imm_out : out std_logic_vector(9 downto 0);
 		store_data_out : out std_logic_vector(7 downto 0);
-		alu_out : out std_logic_vector(7 downto 0)
+		alu_out_out : out std_logic_vector(7 downto 0)
 	);
 end entity EXECUTE;
 
@@ -113,7 +113,7 @@ architecture behav of EXECUTE is
 
 begin
 
-	ALU1 : ALU port map (clk_alu, reset_alu, op1, op2, ins_alu, alu_out);
+	ALU1 : ALU port map (clk_alu, reset_alu, op1, op2, ins_alu, alu_out_out);
 	MUX_ALU_OP1 : MUX4x1 port map (op1, alu_out_memory, write_data_write_back, write_data_end, sel_mux_op1, mux_op1_out);
 	MUX_ALU_OP2 : MUX4x1 port map (op2, alu_out_memory, write_data_write_back, write_data_end, sel_mux_op2, mux_op2_out);
 	MUX_IMM : MUX2x1 port map (imm(7 downto 0), mux_op1_out, sel_mux_imm, mux_imm_out);
@@ -253,6 +253,26 @@ begin
 		else
 			stomp <= '0';
 			mux_pc_out <= '0';
+		end if;
+	end process;
+
+	update_input : process (clk)
+	begin
+		if rising_edge(clk) then
+			if (stomp = '0') then
+				pc <= pc_in;
+				op1 <= op1_in;
+				op2 <= op2_in;
+				opcode <= opcode_in;
+				tr <= tr_in;
+				s1 <= s1_in;
+				s2 <= s2_in;
+				imm <= imm_in;
+			elsif (stomp = '1') then
+				opcode <= "00000";
+				tr <= "000";
+				imm <= "0000000000";
+			end if;
 		end if;
 	end process;
 
