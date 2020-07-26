@@ -32,11 +32,13 @@ architecture behav of FETCH is
 
 	-- incremented pc used as input for next fetch
 	signal pc : std_logic_vector(addr_width - 1 downto 0) := (others => '0');
+	signal clk_rom : std_logic;
 
 begin
 
 	INSTRUCTION_ROM : ROM port map (pc, clk, ins_out);
 
+	clk_rom <= not clk;
 	pc_inc_out <= std_logic_vector(unsigned(pc) + 1);
 	pc_out <= pc;
 
