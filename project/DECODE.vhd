@@ -44,20 +44,32 @@ architecture behav of DECODE is
 		);
 	end component REG;
 
-	signal addr_op_1 : std_logic_vector (2 downto 0);
-	signal addr_op_2 : std_logic_vector (2 downto 0);
 	signal pc : std_logic_vector(addr_width - 1 downto 0);
+	signal ins : std_logic_vector(23 downto 0);
+
+	-- dissect instruction into components
+	signal opcode : std_logic_vector(3 downto 0); -- opcode
+	signal tr : std_logic_vector(2 downto 0); -- target register use 000 for masking
+	signal s1 : std_logic_vector(2 downto 0); -- register of first operand
+	signal s2 : std_logic_vector(2 downto 0); -- register of second operand
 
 	signal clk_reg : std_logic := '0';
 	signal reset_reg : std_logic := '0';
 
 begin
 
-	DATA_REG : REG port map (clk_reg, reset_reg, wb_addr, addr_op_1, addr_op_2, wb_enable, wb_data, op1_out, op2_out);
+	DATA_REG : REG port map (clk_reg, reset_reg, wb_addr, s1, s2, wb_enable, wb_data, op1_out, op2_out);
 
 	clk_reg <= not clk;
+	pc_out <= pc;
 
-	
+	process (clk)
+	begin
+		if (rising_edge(clk)) then
+			pc <= pc_in;
+			ins <= ins_in;
+		end if;
+	end process;
 
 end behav;
 

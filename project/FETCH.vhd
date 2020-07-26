@@ -40,12 +40,12 @@ begin
 	INSTRUCTION_ROM : ROM port map (pc, clk, ins);
 
 	pc_inc <= std_logic_vector(unsigned(pc) + 1);
+	pc_inc_out <= pc_inc;
 
 	process (clk)
 	begin
 		if rising_edge(clk) then
 			pc <= pc_in;
-			pc_inc_out <= pc_inc;
 			if (stall = '0') then
 				ins_out <= ins;
 			else
