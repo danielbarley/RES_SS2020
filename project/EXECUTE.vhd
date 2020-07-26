@@ -29,6 +29,7 @@ entity EXECUTE is
 		write_data_end : in std_logic_vector(7 downto 0);
 		-- control for other stages
 		stomp_out : out std_logic;
+		mux_pc_out : out std_logic;
 		-- output for MEMORY stage
 		opcode_out : out std_logic_vector(4 downto 0);
 		tr_out : out std_logic_vector(2 downto 0);
@@ -74,6 +75,15 @@ architecture behav of EXECUTE is
 			o : out std_logic_vector(7 downto 0)
 		);
 	end component MUX2x1;
+
+	constant ZERO_FLAG : integer := 7; -- set if output is zero
+	constant NEGATIVE_FLAG : integer := 6; -- set if output is negative
+	constant POSITIVE_FLAG : integer := 5; -- set if output is positive
+	constant EQUAL_FLAG : integer := 4; -- set if operands are equal
+	constant LESS_FLAG : integer := 3; -- set if op1 < op2
+	constant GREATER_FLAG : integer := 2; -- set if op1 > op1
+	-- TODO: OVERFLOW_FLAG
+	-- TODO: CARRY_FLAG
 
 	signal pc : std_logic_vector(addr_width - 1 downto 0);
 
@@ -197,13 +207,13 @@ begin
 			when "11000" => -- BRA
 				ins_alu <= "0000";
 			when "11001" => -- BEQ
-				ins_alu <= "0000";
+				ins_alu <= "0001";
 			when "11010" => -- BNQ
-				ins_alu <= "0000";
+				ins_alu <= "0001";
 			when "11011" => -- BGT
-				ins_alu <= "0000";
+				ins_alu <= "0001";
 			when "11100" => -- BLT
-				ins_alu <= "0000";
+				ins_alu <= "0001";
 			when "11101" => -- n/A
 				ins_alu <= "0000";
 			when "11110" => -- n/A
@@ -215,5 +225,35 @@ begin
 		end case;
 	end process;
 
+	-- Checks if branch is taken and issues STOMP signal accordingly
+	-- also controls FETCH's PC input MUX
+	stomp_control : process (opcode, flags)
+	begin
+		if (opcode = "11000") then
+			stomp <= '1';
+			mux_pc_out <= '1';
+		elsif ((opcode = "11001") and (flags(EQUAL_FLAG) = '1')) then
+			stomp <= '1';
+			mux_pc_out <= '1';
+		elsif ((opcode = "11010") and (flags(EQUAL_FLAG) = '0')) then
+			stomp <= '1';
+			mux_pc_out <= '1';
+		elsif ((opcode = "11011") and (flags(GREATER_FLAG) = '1')) then
+			stomp <= '1';
+			mux_pc_out <= '1';
+		elsif ((opcode = "11100") and ((flags(GREATER_FLAG) = '1') or (flags(EQUAL_FLAG) = '1'))) then
+			stomp <= '1';
+			mux_pc_out <= '1';
+		elsif ((opcode = "11101") and (flags(LESS_FLAG) = '1')) then
+			stomp <= '1';
+			mux_pc_out <= '1';
+		elsif ((opcode = "11110") and ((flags(LESS_FLAG) = '1') or (flags(EQUAL_FLAG) = '1'))) then
+			stomp <= '1';
+			mux_pc_out <= '1';
+		else
+			stomp <= '0';
+			mux_pc_out <= '0';
+		end if;
+	end process;
 
 end behav;
