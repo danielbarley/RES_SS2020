@@ -32,24 +32,19 @@ architecture behav of FETCH is
 
 	-- incremented pc used as input for next fetch
 	signal pc : std_logic_vector(addr_width - 1 downto 0) := (others => '0');
-	signal pc_inc : std_logic_vector(addr_width - 1 downto 0);
-	signal ins : std_logic_vector(23 downto 0);
 
 begin
 
-	INSTRUCTION_ROM : ROM port map (pc, clk, ins);
+	INSTRUCTION_ROM : ROM port map (pc, clk, ins_out);
 
-	pc_inc <= std_logic_vector(unsigned(pc) + 1);
-	pc_inc_out <= pc_inc;
+	pc_inc_out <= std_logic_vector(unsigned(pc) + 1);
 
-	process (clk)
+	-- only update pc if no stall occurs
+	update_pc: process (clk)
 	begin
 		if rising_edge(clk) then
-			pc <= pc_in;
 			if (stall = '0') then
-				ins_out <= ins;
-			else
-				ins_out <= "000000000000000000000000";
+				pc <= pc_in;
 			end if;
 		end if;
 	end process;
