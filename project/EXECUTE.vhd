@@ -159,13 +159,13 @@ begin
 	begin
 		if (opcode = "00001") then
 			sel_mux_imm <= '0';
-		elsif (opcode = "0011") then
+		elsif (opcode = "00011") then
 			sel_mux_imm <= '0';
-		elsif (opcode = "0011") then
+		elsif (opcode = "01000") then
 			sel_mux_imm <= '0';
-		elsif (opcode = "0011") then
+		elsif (opcode = "01010") then
 			sel_mux_imm <= '0';
-		elsif (opcode = "0011") then
+		elsif (opcode = "01100") then
 			sel_mux_imm <= '0';
 		else
 			sel_mux_imm <= '1';

@@ -9,7 +9,7 @@ entity WRITE_BACK is
 	port (
 		clk : in std_logic;
 		tr_in : in std_logic_vector(2 downto 0);
-		write_data_in : std_logic_vector(7 downto 0);
+		write_data_in : in std_logic_vector(7 downto 0);
 		tr_out : out std_logic_vector(2 downto 0);
 		write_data_out : out std_logic_vector(7 downto 0);
 		reg_wen_out : out std_logic
