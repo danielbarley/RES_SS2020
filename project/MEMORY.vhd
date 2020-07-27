@@ -98,7 +98,7 @@ begin
 	begin
 		if rising_edge(clk) then
 			pc <= pc_in;
-			opcode <= opcode;
+			opcode <= opcode_in;
 			tr <= tr_in;
 			imm <= imm_in;
 			store_data <= store_data_in;
