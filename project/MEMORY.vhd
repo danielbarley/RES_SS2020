@@ -71,6 +71,8 @@ begin
 	ram_clk <= not clk;
 	tr_out <= tr;
 	write_data_out <= write_data;
+	mux_in_imm <= imm(7 downto 0);
+	mux_in_alu <= alu_out;
 
 	ram_control : process (opcode)
 	begin
