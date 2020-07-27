@@ -4,7 +4,8 @@ use IEEE.numeric_std.ALL;
 
 entity CPU is
 	port (
-		clk : in std_logic;
+		reset : in std_logic;
+		inclk : in std_logic;
 		output : out std_logic_vector(7 downto 0)
 	);
 end entity CPU;
@@ -151,6 +152,17 @@ architecture behav of CPU is
 		);
 	end component MUX_PC;
 
+	component clk is
+		port
+		(
+			areset		: in std_logic  := '0';
+			inclk0		: in std_logic  := '0';
+			c0		: out std_logic ;
+			locked		: out std_logic 
+		);
+	end component clk;
+
+	signal clock : std_logic := '0';
 	signal stomp : std_logic := '0';
 	signal stall : std_logic := '0';
 	signal pc : std_logic_vector(9 downto 0) := (others => '0');
@@ -197,10 +209,11 @@ architecture behav of CPU is
 
 begin
 
+	MY_CLK : CLK port map (reset, inclk, clock);
 	MUX_NEXT_PC : MUX_PC port map (pc_mux_in_branch, pc_mux_in_inc, pc_mux_sel, pc_mux_out);
-	FETCH_STAGE : FETCH port map (clk, stall, pc_mux_out, fetch_decode_ins, fetch_decode_pc, pc_mux_in_inc);
+	FETCH_STAGE : FETCH port map (clock, stall, pc_mux_out, fetch_decode_ins, fetch_decode_pc, pc_mux_in_inc);
 	DECODE_STAGE : DECODE port map (
-		clk,
+		clock,
 		fetch_decode_pc,
 		fetch_decode_ins,
 		stomp,
@@ -220,7 +233,7 @@ begin
 		decode_execute_op2
 	);
 	EXECUTE_STAGE : EXECUTE port map (
-		clk,
+		clock,
 		decode_execute_pc,
 		decode_execute_op1,
 		decode_execute_op2,
@@ -244,7 +257,7 @@ begin
 		execute_memory_alu_out
 	);
 	MEMORY_STAGE : MEMORY port map (
-		clk,
+		clock,
 		fetch_decode_pc,
 		execute_memory_opcode,
 		execute_memory_tr,
@@ -255,7 +268,7 @@ begin
 		memory_write_back_write_data
 	);
 	WRITE_BACK_STAGE : WRITE_BACK port map (
-		clk,
+		clock,
 		memory_write_back_tr,
 		memory_write_back_write_data,
 		write_back_execute_tr,
@@ -264,6 +277,7 @@ begin
 	);
 
 	write_back_decode_wb_addr <= write_back_execute_tr;
+	output <= write_back_execute_write_data;
 
 
 end behav;

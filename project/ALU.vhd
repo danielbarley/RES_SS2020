@@ -57,7 +57,7 @@ begin
 		end case;
 	end process;
 
-	process (temp_out)
+	process (temp_out, op1, op2)
 	begin
 		temp_flags <= "00000000";
 		if temp_out = "00000000" then
