@@ -13,13 +13,15 @@ entity DECODE is
 		-- Inputs from previous stage
 		pc_in : in std_logic_vector(addr_width - 1 downto 0);
 		ins_in : in std_logic_vector(23 downto 0);
+		-- inputs from Execute
+		stomp : in std_logic;
 		-- inputs from write back stage
 		wb_data : in std_logic_vector(7 downto 0);
 		wb_addr : in std_logic_vector(2 downto 0);
 		wb_enable : in std_logic;
 		-- opcode/tr from execute stage needed for stalling pipeline
 		opcode_execute : in std_logic_vector(4 downto 0);
-		tr_exectute : in std_logic_vector(2 downto 0);
+		tr_execute : in std_logic_vector(2 downto 0);
 		-- control for other stages
 		stall_out : out std_logic;
 		-- output for EXECUTE stage
@@ -97,6 +99,12 @@ begin
 				s1 <= ins_in(15 downto 13);
 				s2 <= ins_in(12 downto 10);
 				imm <= ins_in(9 downto 0);
+			elsif (stomp = '1') then
+				opcode <= "00000";
+				tr <= "000";
+				s1 <= "000";
+				s2 <= "000";
+				imm <= "0000000000";
 			end if;
 		end if;
 	end process;
