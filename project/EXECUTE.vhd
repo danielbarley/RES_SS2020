@@ -132,7 +132,7 @@ begin
 	-- from register file
 	mux_alu_op1_control : process (s1, tr_memory, tr_write_back, tr_end)
 	begin
-		if (tr_memory = s1) then
+		if (s1 = tr_memory) then
 			sel_mux_op1 <= "01";
 		elsif (s1 = tr_write_back) then
 			sel_mux_op1 <= "10";
@@ -152,6 +152,23 @@ begin
 			sel_mux_op2 <= "11";
 		else
 			sel_mux_op2 <= "00";
+		end if;
+	end process;
+
+	mux_imm_control : process (opcode)
+	begin
+		if (opcode = "00001") then
+			sel_mux_imm <= '0';
+		elsif (opcode = "0011") then
+			sel_mux_imm <= '0';
+		elsif (opcode = "0011") then
+			sel_mux_imm <= '0';
+		elsif (opcode = "0011") then
+			sel_mux_imm <= '0';
+		elsif (opcode = "0011") then
+			sel_mux_imm <= '0';
+		else
+			sel_mux_imm <= '1';
 		end if;
 	end process;
 

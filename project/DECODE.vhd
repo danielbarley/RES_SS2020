@@ -19,7 +19,7 @@ entity DECODE is
 		wb_enable : in std_logic;
 		-- opcode/tr from execute stage needed for stalling pipeline
 		opcode_execute : in std_logic_vector(4 downto 0);
-		tr_execute : in std_logic_vector(2 downto 0);
+		tr_exectute : in std_logic_vector(2 downto 0);
 		-- control for other stages
 		stall_out : out std_logic;
 		-- output for EXECUTE stage
