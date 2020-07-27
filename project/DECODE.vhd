@@ -19,7 +19,7 @@ entity DECODE is
 		wb_enable : in std_logic;
 		-- opcode/tr from execute stage needed for stalling pipeline
 		opcode_execute : in std_logic_vector(4 downto 0);
-		tr_exectute : in std_logic_vector(3 downto 0);
+		tr_execute : in std_logic_vector(2 downto 0);
 		-- control for other stages
 		stall_out : out std_logic;
 		-- output for EXECUTE stage
@@ -96,16 +96,17 @@ begin
 				tr <= ins_in(18 downto 16);
 				s1 <= ins_in(15 downto 13);
 				s2 <= ins_in(12 downto 10);
+				imm <= ins_in(9 downto 0);
 			end if;
 		end if;
 	end process;
 
 	-- check that no load in execute stage targets any register in decoded instruction
 	-- "10000" -> lda, "10001" -> ldi
-	control : process (tr, s1, s2, tr_exectute, opcode_execute)
+	control : process (tr, s1, s2, tr_execute, opcode_execute)
 	begin
 		if ((opcode_execute = "10000") or (opcode_execute = "10001")) then
-			if ((tr_exectute = tr) or (tr_exectute = s1) or (tr_exectute = s2)) then
+			if ((tr_execute = tr) or (tr_execute = s1) or (tr_execute = s2)) then
 				stall <= '1';
 			else
 				stall <= '0';
