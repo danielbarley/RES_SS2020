@@ -118,6 +118,8 @@ begin
 	MUX_ALU_OP2 : MUX4x1 port map (op2, alu_out_memory, write_data_write_back, write_data_end, sel_mux_op2, mux_op2_out);
 	MUX_IMM : MUX2x1 port map (imm(7 downto 0), mux_op1_out, sel_mux_imm, mux_imm_out);
 
+	clk_alu <= not clk;
+
 	opcode_out <= opcode;
 	tr_out <= tr;
 	imm_out <= imm;
@@ -142,11 +144,11 @@ begin
 	end process;
 	mux_alu_op2_control : process (s2, tr_memory, tr_write_back, tr_end)
 	begin
-		if (tr_memory = s1) then
+		if (s2 = tr_memory ) then
 			sel_mux_op2 <= "01";
-		elsif (s1 = tr_write_back) then
+		elsif (s2 = tr_write_back) then
 			sel_mux_op2 <= "10";
-		elsif (s1 = tr_end) then
+		elsif (s2 = tr_end) then
 			sel_mux_op2 <= "11";
 		else
 			sel_mux_op2 <= "00";
