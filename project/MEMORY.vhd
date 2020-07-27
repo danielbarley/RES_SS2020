@@ -66,7 +66,7 @@ architecture behav of MEMORY is
 
 begin
 	DATA_RAM : RAM port map (ram_clk, store_data_in, imm, imm, ram_wen, mux_in_ram);
-	MUX_WRITE_DATA : MUX3x1 port map (mux_in_ram, mux_in_imm, mux_in_alu, sel_mux);
+	MUX_WRITE_DATA : MUX3x1 port map (mux_in_ram, mux_in_imm, mux_in_alu, sel_mux, write_data);
 
 	ram_clk <= not clk;
 	tr_out <= tr;
