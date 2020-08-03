@@ -45,40 +45,63 @@ begin
 
 	process
 	begin
-	
+
 		wait until Clk'event and Clk='0';
 		
-		ins <= ins + 1;
+		ins <= "0000";
 		
 		wait for clk_period;
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
+		assert(output = (op1 + op2)) report "Wrong output addition";
 		
 		ins <= ins + 1;
 		
 		wait for clk_period;
+		assert(output = (op1 - op2)) report "Wrong output sustraction";
 		
 		ins <= ins + 1;
 		
 		wait for clk_period;
+		assert(output = (op1 + 1)) report "Wrong output increment";
 		
 		ins <= ins + 1;
 		
 		wait for clk_period;
+		assert(output = (op1 - 1)) report "Wrong output decrement";
 		
 		ins <= ins + 1;
 		
 		wait for clk_period;
+		assert(output = (not op1)) report "Wrong output negation";
 		
 		ins <= ins + 1;
 		
 		wait for clk_period;
+		assert(output = (op1 and op2)) report "Wrong output and";
+		
+		ins <= ins + 1;
+		
+		wait for clk_period;
+		assert(output = (op1 or op2)) report "Wrong output or";
+		
+		ins <= ins + 1;
+		
+		wait for clk_period;
+		assert(output = (op1 xor op2)) report "Wrong output xor";
+		
+		ins <= ins + 1;
+		
+		wait for clk_period;
+		assert(output = "00000000") report "Wrong output others";
+		
+		ins <= ins + 1;
+		
+		wait for clk_period;
+		assert(output = "00000000") report "Wrong output others";
+		
+		ins <= ins + 1;
+		
+		wait for clk_period;
+		assert(output = "00000000") report "Wrong output others";
 		
 		
 	

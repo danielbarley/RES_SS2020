@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
+use IEEE.std_logic_unsigned.ALL;
 
 entity REG_tb is
 end entity;
@@ -10,16 +11,12 @@ architecture arch of REG_tb is
 	signal clk : std_logic := '0';
 	signal reset : std_logic := '0';
 	
+	signal addr_wb : std_logic_vector(2 downto 0) := (others => '0');
 	signal addr_1 : std_logic_vector(2 downto 0) := (others => '0');
 	signal addr_2 : std_logic_vector(2 downto 0) := (others => '0');
 	
-	signal rd_en_1 : std_logic := '0';
-	signal rd_en_2 : std_logic := '0';
-	signal wr_en_1 : std_logic := '0';
-	signal wr_en_2 : std_logic := '0';
-	
-	signal data_1_in : std_logic_vector(7 downto 0) := (others => '0');
-	signal data_2_in : std_logic_vector(7 downto 0) := (others => '0');
+	signal wb_en : std_logic := '0';
+	signal wb_in : std_logic_vector(7 downto 0) := (others => '0');
 	
 	signal data_1_out : std_logic_vector(7 downto 0);
 	signal data_2_out : std_logic_vector(7 downto 0);
@@ -29,16 +26,13 @@ architecture arch of REG_tb is
 			clk : in std_logic;
 			reset : in std_logic;
 			-- register addresses (8 regs -> 3bit)
-			addr_1 : in std_logic_vector(2 downto 0);
-			addr_2 : in std_logic_vector(2 downto 0);
+			addr_wb : in std_logic_vector(2 downto 0); -- write back address
+			addr_1 : in std_logic_vector(2 downto 0); -- address for operand 1
+			addr_2 : in std_logic_vector(2 downto 0); -- address for operand 2
 			-- control signals
-			rd_en_1 : in std_logic;
-			rd_en_2 : in std_logic;
-			wr_en_1 : in std_logic;
-			wr_en_2 : in std_logic;
+			wb_en : in std_logic; -- enable write back
 			-- data in ports
-			data_1_in : in std_logic_vector(7 downto 0);
-			data_2_in : in std_logic_vector(7 downto 0);
+			wb_in : in std_logic_vector(7 downto 0); -- writeback data
 			-- data out ports
 			data_1_out : out std_logic_vector(7 downto 0);
 			data_2_out : out std_logic_vector(7 downto 0)
@@ -50,8 +44,8 @@ architecture arch of REG_tb is
 
 begin
 
-	uut: reg port map(clk, reset, addr_1, addr_2, rd_en_1, rd_en_2, wr_en_1, wr_en_2, 
-							data_1_in, data_2_in, data_1_out, data_2_out);
+	uut: reg port map(clk, reset, addr_wb, addr_1, addr_2, 
+							wb_en, wb_in, data_1_out, data_2_out);
 	
 	clk <= not clk after half_clk_period;
 
@@ -60,42 +54,44 @@ begin
 		
 		wait until Clk'event and Clk='0';
 		
-		data_1_in <= (3 downto 0 => '1', others => '0');
-		data_2_in <= (5 downto 3 => '1', others => '0');
+		addr_wb <= "001";
+		wb_in <= (3 downto 1 => '1', others => '0');
+		wb_en <= '1';
 		
-		addr_1 <= (0 => '1', others => '0');
-		addr_2 <= (1 => '1', others => '0');
-		
-		wr_en_1 <= '1';
 		wait for clk_period;
 		
-		wr_en_2 <= '1';
-		wait for clk_period;
-	
-		wr_en_1 <= '0';
-		data_1_in <= (6 downto 4 => '1', others => '0');
-		data_2_in <= (7 downto 6 => '1', others => '0');
+		addr_wb <= addr_wb + 1;
+		wb_in <= (7 downto 4 => '1', others => '0');
+		
 		wait for clk_period;
 		
-		wr_en_2 <= '0';
+		addr_wb <= addr_wb + 1;
+		wb_in <= (0 => '1', others => '0');
+		
 		wait for clk_period;
 		
-		rd_en_1 <= '1';
+		addr_wb <= addr_wb + 1;
+		wb_in <= (4 => '1', others => '0');
+		
 		wait for clk_period;
 		
-		rd_en_2 <= '1';
-		wait for clk_period;
+		wb_en <= '0';
 		
-		rd_en_1 <= '0';
-		wait for clk_period;
+		addr_1 <= "001";
+		addr_2 <= "010";
 		
-		data_2_in <= (5 => '1', others => '0');
-		wr_en_2 <= '1';
 		wait for clk_period;
+		assert(data_1_out = "00001110") report "Wrong output 1";
+		assert(data_2_out = "11110000") report "Wrong result 2";
 		
-		wr_en_2 <= '0';
+		addr_1 <= "010";
+		addr_2 <= "011";
+		
 		wait for clk_period;
-		rd_en_2 <= '0';
+		assert(data_1_out = "11110000") report "Wrong output 1";
+		assert(data_2_out = "00000001") report "Wrong result 2";
+		
+		
 		
 	
 	end process;
