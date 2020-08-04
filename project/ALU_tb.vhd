@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
 use IEEE.std_logic_unsigned.ALL;
+use std.textio.ALL;
 
 entity ALU_tb is
 end entity;
@@ -15,7 +16,7 @@ architecture arch of ALU_tb is
 	signal op2: std_logic_vector(7 downto 0) := (6 downto 3 => '1', others => '0');
 	signal ins: std_logic_vector(3 downto 0) := (others => '0');
 
-	signal output: std_logic_vector(7 downto 0);
+	signal result: std_logic_vector(7 downto 0);
 	signal flags: std_logic_vector(7 downto 0);
 
 
@@ -39,71 +40,115 @@ architecture arch of ALU_tb is
 
 
 begin
-	uut: alu port map(clk, reset, op1, op2, ins, output, flags);
+	uut: alu port map(clk, reset, op1, op2, ins, result, flags);
 	
 	clk <= not clk after half_clk_period;
 
 	process
+	VARIABLE l: LINE;
 	begin
-
+		
 		wait until Clk'event and Clk='0';
 		
 		ins <= "0000";
 		
+		write(l, now);
+		write(l, string'(": Testing ALU addition (instruction = 0x0)"));
+		writeline(output, l);
+		
 		wait for clk_period;
-		assert(output = (op1 + op2)) report "Wrong output addition";
+		assert(result = (op1 + op2)) report "Wrong output addition";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU substraction (instruction = 0x1)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = (op1 - op2)) report "Wrong output substraction";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU incrementation (instruction = 0x2)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = (op1 + 1)) report "Wrong output increment";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU decrementation (instruction = 0x3)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = (op1 - 1)) report "Wrong output decrement";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU negation (instruction = 0x4)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = (not op1)) report "Wrong output negation";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU AND (instruction = 0x5)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = (op1 and op2)) report "Wrong output and";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU OR (instruction = 0x6)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = (op1 or op2)) report "Wrong output or";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU XOR (instruction = 0x7)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = (op1 xor op2)) report "Wrong output xor";
+		
+		
+		ins <= ins + 1;
+		
+		write(l, now);
+		write(l, string'(": Testing ALU output = 0 when no matching instruction (instruction > 0x7)"));
+		writeline(output, l);
+		
+		wait for clk_period;
+		assert(result = "00000000") report "Wrong output others";
 		
 		ins <= ins + 1;
 		
 		wait for clk_period;
-		assert(output = (op1 - op2)) report "Wrong output sustraction";
+		assert(result = "00000000") report "Wrong output others";
 		
 		ins <= ins + 1;
 		
 		wait for clk_period;
-		assert(output = (op1 + 1)) report "Wrong output increment";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = (op1 - 1)) report "Wrong output decrement";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = (not op1)) report "Wrong output negation";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = (op1 and op2)) report "Wrong output and";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = (op1 or op2)) report "Wrong output or";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = (op1 xor op2)) report "Wrong output xor";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = "00000000") report "Wrong output others";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = "00000000") report "Wrong output others";
-		
-		ins <= ins + 1;
-		
-		wait for clk_period;
-		assert(output = "00000000") report "Wrong output others";
-		
-		
+		assert(result = "00000000") report "Wrong output others";
+
 	
 	end process;
 

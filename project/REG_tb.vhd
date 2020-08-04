@@ -58,20 +58,36 @@ begin
 		wb_in <= (3 downto 1 => '1', others => '0');
 		wb_en <= '1';
 		
+		write(l, now);
+		write(l, string'(": Writing 0x0E to address 001 of register"));
+		writeline(output, l);
+		
 		wait for clk_period;
 		
 		addr_wb <= addr_wb + 1;
 		wb_in <= (7 downto 4 => '1', others => '0');
+		
+		write(l, now);
+		write(l, string'(": Writing 0xF0 to address 010 of register"));
+		writeline(output, l);
 		
 		wait for clk_period;
 		
 		addr_wb <= addr_wb + 1;
 		wb_in <= (0 => '1', others => '0');
 		
+		write(l, now);
+		write(l, string'(": Writing 0x01 to address 011 of register"));
+		writeline(output, l);
+		
 		wait for clk_period;
 		
 		addr_wb <= addr_wb + 1;
 		wb_in <= (4 => '1', others => '0');
+		
+		write(l, now);
+		write(l, string'(": Writing 0x10 to address 100 of register"));
+		writeline(output, l);
 		
 		wait for clk_period;
 		
@@ -80,12 +96,20 @@ begin
 		addr_1 <= "001";
 		addr_2 <= "010";
 		
+		write(l, now);
+		write(l, string'(": Reading value from register address 001 to data_1_out, from register adress 010 to data_2_out"));
+		writeline(output, l);
+		
 		wait for clk_period;
 		assert(data_1_out = "00001110") report "Wrong output 1";
 		assert(data_2_out = "11110000") report "Wrong result 2";
 		
 		addr_1 <= "010";
 		addr_2 <= "011";
+		
+		write(l, now);
+		write(l, string'(": Reading value from register address 010 to data_1_out, from register adress 011 to data_2_out"));
+		writeline(output, l);
 		
 		wait for clk_period;
 		assert(data_1_out = "11110000") report "Wrong output 1";
