@@ -88,6 +88,8 @@ begin
 
 	clk <= not clk after half_clk_period;
 	
+	
+	
 	process
 	VARIABLE l: LINE;
 	begin
@@ -107,70 +109,138 @@ begin
 		wb_data <= (1 => '1', others => '0');
 		wb_addr <= "101";
 		
-		opcode_execute <= "01000";
-		tr_execute <= "010";
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
 		
 		wait for clk_period;	
-		assert(opcode_out = "00000") report "Wrong opcode";
-		assert(tr_out = "001") report "Wrong transmission register";
-		assert(s1_out = "010") report "Wrong source register 1";
-		assert(s2_out = "011") report "Wrong source register 2";
-		assert(imm_out = "0000000000") report "Wrong immediate value";
+		assert(opcode_out = ins_in(23 downto 19)) report "Wrong opcode";
+		assert(tr_out = ins_in(18 downto 16)) report "Wrong transmission register";
+		assert(s1_out = ins_in(15 downto 13)) report "Wrong source register 1";
+		assert(s2_out = ins_in(12 downto 10)) report "Wrong source register 2";
+		assert(imm_out = ins_in(9 downto 0)) report "Wrong immediate value";
 		
 		
 		write(l, now);
 		write(l, string'(": Enable write back, wb_data 0x02 is written into wb_addr 101"));
 		writeline(output, l);
 		
+		pc_in <= pc_in + 1;
+		ins_in <= "000010010100110001100000";
+		wb_data <= (1 => '1', others => '0');
+		wb_addr <= "101";
 		wb_enable <= '1';
-		wait for clk_period;
 		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+		
+		wait for clk_period;
+		assert(opcode_out = ins_in(23 downto 19)) report "Wrong opcode";
+		assert(tr_out = ins_in(18 downto 16)) report "Wrong transmission register";
+		assert(s1_out = ins_in(15 downto 13)) report "Wrong source register 1";
+		assert(s2_out = ins_in(12 downto 10)) report "Wrong source register 2";
+		assert(imm_out = ins_in(9 downto 0)) report "Wrong immediate value";
 		
 		write(l, now);
 		write(l, string'(": wb_data 0x0E is written into wb_addr 011"));
 		writeline(output, l);
-		
-		wb_data <= (3 downto 1 => '1', others => '0');
-		wb_addr <= "011";
-		wait for clk_period;
-		
-		
-		write(l, now);
-		write(l, string'(": The opcode of the execute state is set to a load operation, thus the stall flag is set"));
+		write(l, string'("The opcode of the decode stage is set to a load operation"));
 		writeline(output, l);
 		
-		opcode_execute <= "10000";
-		wait for clk_period;
+		pc_in <= pc_in + 1;
+		ins_in <= "100000010100110001100000";
+		wb_data <= (3 downto 1 => '1', others => '0');
+		wb_addr <= "011";
 		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+		
+		wait for clk_period;
+		assert(opcode_out = ins_in(23 downto 19)) report "Wrong opcode";
+		assert(tr_out = ins_in(18 downto 16)) report "Wrong transmission register";
+		assert(s1_out = ins_in(15 downto 13)) report "Wrong source register 1";
+		assert(s2_out = ins_in(12 downto 10)) report "Wrong source register 2";
+		assert(imm_out = ins_in(9 downto 0)) report "Wrong immediate value";
+		
+		write(l, now);
+		write(l, string'(": The opcode of the execute state is set to a load operation, thus the stall flag is set and the output is NOP"));
+		writeline(output, l);
+		
+		pc_in <= pc_in + 1;
+		ins_in <= "000010010100110001100000";
+		wb_data <= (3 downto 1 => '1', others => '0');
+		wb_addr <= "011";
+		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+		
+		wait for clk_period;
+		assert(opcode_out = "00000") report "Wrong opcode";
+		assert(tr_out = "000") report "Wrong transmission register";
+		assert(s1_out = ins_in(15 downto 13)) report "Wrong source register 1";
+		assert(s2_out = ins_in(12 downto 10)) report "Wrong source register 2";
+		assert(imm_out = ins_in(9 downto 0)) report "Wrong immediate value";
+		assert(stall_out = '1') report "Stall not set";
+		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+		wait for clk_period;
 		
 		write(l, now);
 		write(l, string'(": The opcode of the execute state is reset to no load or store operation, thus the stall flag is reset"));
 		writeline(output, l);
+		write(l, string'("Since data was written back to source address 2 (011), op2_out is set to 0x0E"));
+		writeline(output, l);
 		
-		opcode_execute <= "01000";
+		pc_in <= pc_in + 1;
+		ins_in <= "000100010100110001100000";
+		wb_data <= (3 downto 1 => '1', others => '0');
+		wb_addr <= "011";
+		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+		
 		wait for clk_period;
+		assert(opcode_out = ins_in(23 downto 19)) report "Wrong opcode";
+		assert(tr_out = ins_in(18 downto 16)) report "Wrong transmission register";
+		assert(s1_out = ins_in(15 downto 13)) report "Wrong source register 1";
+		assert(s2_out = ins_in(12 downto 10)) report "Wrong source register 2";
+		assert(imm_out = ins_in(9 downto 0)) report "Wrong immediate value";
+		assert(stall_out = '0') report "Stall not reset";
+		assert(op2_out = "00001110") report "Wrong op2";
 		
 		
 		write(l, now);
 		write(l, string'(": Set source register 1 to address 101 to which was written back 0x02, op1_out is 0x02"));
 		writeline(output, l);
-		write(l, string'(": Set source register 2 to address 011 to which was written back 0x0E, op2_out is 0x0E"));
-		writeline(output, l);
 		
+		pc_in <= pc_in + 1;
 		ins_in <= "000100011010110000000100";
+		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+		
 		wait for clk_period;
-		assert(opcode_out = "00010") report "Wrong opcode";
-		assert(tr_out = "001") report "Wrong transmission register";
-		assert(s1_out = "101") report "Wrong source register 1";
-		assert(s2_out = "011") report "Wrong source register 2";
-		assert(imm_out = "0000000100") report "Wrong immediate value";
+		assert(opcode_out = ins_in(23 downto 19)) report "Wrong opcode";
+		assert(tr_out = ins_in(18 downto 16)) report "Wrong transmission register";
+		assert(s1_out = ins_in(15 downto 13)) report "Wrong source register 1";
+		assert(s2_out = ins_in(12 downto 10)) report "Wrong source register 2";
+		assert(imm_out = ins_in(9 downto 0)) report "Wrong immediate value";
+		assert(op1_out = "00000010") report "Wrong op1";		
 		
 		
 		write(l, now);
 		write(l, string'(": Set stomp, all decoded parameters are 0"));
 		writeline(output, l);
 		
+		pc_in <= pc_in + 1;
+		ins_in <= "000000010100110001100000";
+		wb_data <= (3 downto 1 => '1', others => '0');
+		wb_addr <= "011";
 		stomp <= '1';
+		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+
 		wait for clk_period;
 		assert(opcode_out = "00000") report "Wrong opcode";
 		assert(tr_out = "000") report "Wrong transmission register";
@@ -183,7 +253,21 @@ begin
 		write(l, string'(": Reset stomp"));
 		writeline(output, l);
 		
+		pc_in <= pc_in + 1;
+		ins_in <= "000110010100110001100000";
+		wb_data <= (3 downto 1 => '1', others => '0');
+		wb_addr <= "011";
 		stomp <= '0';
+		
+		opcode_execute <= opcode_out;
+		tr_execute <= tr_out;
+		
+		wait for clk_period;
+		assert(opcode_out = ins_in(23 downto 19)) report "Wrong opcode";
+		assert(tr_out = ins_in(18 downto 16)) report "Wrong transmission register";
+		assert(s1_out = ins_in(15 downto 13)) report "Wrong source register 1";
+		assert(s2_out = ins_in(12 downto 10)) report "Wrong source register 2";
+		assert(imm_out = ins_in(9 downto 0)) report "Wrong immediate value";
 		
 		
 	end process;

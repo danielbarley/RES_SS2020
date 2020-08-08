@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
 use IEEE.std_logic_unsigned.ALL;
+use std.textio.ALL;
 
 entity FETCH_tb is
 end entity;
@@ -46,6 +47,7 @@ begin
 	clk <= not clk after half_clk_period;
 	
 	process
+	VARIABLE l: LINE;
 	begin
 	
 		wait until Clk'event and Clk='0';
@@ -97,7 +99,7 @@ begin
 		stall <= '0';
 		
 		write(l, now);
-		write(l, string'(": Unset stall, increment PC to 4, get instruction at ROM-address 4 (set in .mif file)"));
+		write(l, string'(": Reset stall, increment PC to 4, get instruction at ROM-address 4 (set in .mif file)"));
 		writeline(output, l);
 		
 		pc_in <= pc_inc_out;
