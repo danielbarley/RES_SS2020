@@ -50,6 +50,7 @@ begin
 		
 		wait until Clk'event and Clk='0';
 		
+		reset <= '0';
 		ins <= "0000";
 		
 		write(l, now);
@@ -148,6 +149,12 @@ begin
 		
 		wait for clk_period;
 		assert(result = "00000000") report "Wrong output others";
+		
+		
+		reset <= '1';
+		wait for clk_period;
+		assert(result = "00000000") report "Result not reset";
+		assert(flags = "00000000") report "Flags not reset";
 
 	
 	end process;

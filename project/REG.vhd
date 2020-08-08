@@ -27,26 +27,38 @@ architecture behav of REG is
 
 begin
 
-	input: process (clk)
+	input: process (clk, reset)
 	begin
 		if rising_edge(clk) then
-			if wb_en = '1' then
-				regs(to_integer(unsigned(addr_wb))) <= wb_in;
+			if reset = '0'then 
+				if wb_en = '1' then
+					regs(to_integer(unsigned(addr_wb))) <= wb_in;
+				end if;
+			else
+				regs <= (others => (others => '0'));
 			end if;
 		end if;
 	end process;
 
-	output1: process (clk)
+	output1: process (clk, reset)
 	begin
 		if rising_edge(clk) then
-			data_1_out <= regs(to_integer(unsigned(addr_1)));
+			if reset = '0' then
+				data_1_out <= regs(to_integer(unsigned(addr_1)));
+			else
+				data_1_out <= (others => '0');
+			end if;
 		end if;
 	end process;
 
-	output2: process (clk)
+	output2: process (clk, reset)
 	begin
 		if rising_edge(clk) then
-			data_2_out <= regs(to_integer(unsigned(addr_2)));
+			if reset = '0' then
+				data_2_out <= regs(to_integer(unsigned(addr_2)));
+			else 
+				data_2_out <= (others => '0');
+			end if;
 		end if;
 	end process;
 

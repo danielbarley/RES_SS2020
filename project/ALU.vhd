@@ -33,50 +33,58 @@ architecture behav of ALU is
 	signal temp_flags : std_logic_vector(7 downto 0); -- buffer for flags
 
 begin
-	process (op1, op2, ins)
+	process (op1, op2, ins, reset)
 	begin
-		case(ins) is
-			when "0000" => -- addition
-				temp_out <= op1 + op2;
-			when "0001" => -- subtraction
-				temp_out <= op1 - op2;
-			when "0010" => -- increment
-				temp_out <= op1 + 1;
-			when "0011" => -- decrement
-				temp_out <= op1 - 1;
-			when "0100" => -- negate
-				temp_out <= not op1;
-			when "0101" => -- and
-				temp_out <= op1 and op2;
-			when "0110" => -- or
-				temp_out <= op1 or op2;
-			when "0111" => -- xor
-				temp_out <= op1 xor op2;
-			when others =>
-				temp_out <= "00000000";
-		end case;
+		if reset = '0' then
+			case(ins) is
+				when "0000" => -- addition
+					temp_out <= op1 + op2;
+				when "0001" => -- subtraction
+					temp_out <= op1 - op2;
+				when "0010" => -- increment
+					temp_out <= op1 + 1;
+				when "0011" => -- decrement
+					temp_out <= op1 - 1;
+				when "0100" => -- negate
+					temp_out <= not op1;
+				when "0101" => -- and
+					temp_out <= op1 and op2;
+				when "0110" => -- or
+					temp_out <= op1 or op2;
+				when "0111" => -- xor
+					temp_out <= op1 xor op2;
+				when others =>
+					temp_out <= "00000000";
+			end case;
+		else
+			temp_out <= "00000000";
+		end if;
 	end process;
 
-	process (temp_out, op1, op2)
+	process (temp_out, op1, op2, reset)
 	begin
-		temp_flags <= "00000000";
-		if temp_out = "00000000" then
-			temp_flags(ZERO_FLAG) <= '1';
-		else
-			if temp_out(7) = '1' then
-				temp_flags(NEGATIVE_FLAG) <= '1';
+		if reset = '0' then
+			temp_flags <= "00000000";
+			if temp_out = "00000000" then
+				temp_flags(ZERO_FLAG) <= '1';
 			else
-				temp_flags(POSITIVE_FLAG) <= '1';
+				if temp_out(7) = '1' then
+					temp_flags(NEGATIVE_FLAG) <= '1';
+				else
+					temp_flags(POSITIVE_FLAG) <= '1';
+				end if;
 			end if;
-		end if;
-		if (to_integer(unsigned(op1)) > to_integer(unsigned(op2))) then
-			temp_flags(GREATER_FLAG) <= '1';
-		end if;
-		if (to_integer(unsigned(op1)) < to_integer(unsigned(op2))) then
-			temp_flags(LESS_FLAG) <= '1';
-		end if;
-		if (to_integer(unsigned(op1)) = to_integer(unsigned(op2))) then
-			temp_flags(EQUAL_FLAG) <= '1';
+			if (to_integer(unsigned(op1)) > to_integer(unsigned(op2))) then
+				temp_flags(GREATER_FLAG) <= '1';
+			end if;
+			if (to_integer(unsigned(op1)) < to_integer(unsigned(op2))) then
+				temp_flags(LESS_FLAG) <= '1';
+			end if;
+			if (to_integer(unsigned(op1)) = to_integer(unsigned(op2))) then
+				temp_flags(EQUAL_FLAG) <= '1';
+			end if;
+		else 
+			temp_flags <= "00000000";
 		end if;
 	end process;
 
@@ -87,4 +95,5 @@ begin
 			flags <= temp_flags;
 		end if;
 	end process;
+	
 end behav;

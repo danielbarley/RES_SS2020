@@ -56,6 +56,7 @@ begin
 		
 		wait until Clk'event and Clk='0';
 		
+		reset <= '0';
 		addr_wb <= "001";
 		wb_in <= (3 downto 1 => '1', others => '0');
 		wb_en <= '1';
@@ -95,28 +96,36 @@ begin
 		
 		wb_en <= '0';
 		
-		addr_1 <= "001";
-		addr_2 <= "010";
-		
 		write(l, now);
 		write(l, string'(": Reading value from register address 001 to data_1_out, from register adress 010 to data_2_out"));
 		writeline(output, l);
 		
+		addr_1 <= "001";
+		addr_2 <= "010";
+		
 		wait for clk_period;
 		assert(data_1_out = "00001110") report "Wrong output 1";
-		assert(data_2_out = "11110000") report "Wrong result 2";
-		
-		addr_1 <= "010";
-		addr_2 <= "011";
+		assert(data_2_out = "11110000") report "Wrong output 2";
 		
 		write(l, now);
 		write(l, string'(": Reading value from register address 010 to data_1_out, from register adress 011 to data_2_out"));
 		writeline(output, l);
 		
+		addr_1 <= "010";
+		addr_2 <= "011";
+		
 		wait for clk_period;
 		assert(data_1_out = "11110000") report "Wrong output 1";
-		assert(data_2_out = "00000001") report "Wrong result 2";
+		assert(data_2_out = "00000001") report "Wrong output 2";
 		
+		write(l, now);
+		write(l, string'(": Test reset"));
+		writeline(output, l);
+		
+		reset <= '1';
+		wait for clk_period;
+		assert(data_1_out = "00000000") report "Output 1 not reset";
+		assert(data_2_out = "00000000") report "Output 2 not reset";
 		
 		
 	
