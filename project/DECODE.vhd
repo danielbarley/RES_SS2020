@@ -99,7 +99,8 @@ begin
 				s1 <= ins_in(15 downto 13);
 				s2 <= ins_in(12 downto 10);
 				imm <= ins_in(9 downto 0);
-			elsif (stomp = '1') then
+			end if;
+			if (stomp = '1') then
 				opcode <= "00000";
 				tr <= "000";
 				s1 <= "000";
