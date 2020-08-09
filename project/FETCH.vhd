@@ -8,13 +8,13 @@ entity FETCH is
 	);
 	port (
 		-- control signals
-		clk : in std_logic;
-		stall : in std_logic;
+		clk : in std_logic := '0';
+		stall : in std_logic := '0';
 		-- I/O
-		pc_in : in std_logic_vector(addr_width - 1 downto 0);
-		ins_out : out std_logic_vector(23 downto 0);
-		pc_out : out std_logic_vector(addr_width - 1 downto 0);
-		pc_inc_out : out std_logic_vector(addr_width - 1 downto 0)
+		pc_in : in std_logic_vector(addr_width - 1 downto 0) := (others => '0');
+		ins_out : out std_logic_vector(23 downto 0) := (others => '0');
+		pc_out : out std_logic_vector(addr_width - 1 downto 0) := (others => '0');
+		pc_inc_out : out std_logic_vector(addr_width - 1 downto 0) := (others => '0')
 	);
 end entity FETCH;
 
@@ -32,7 +32,7 @@ architecture behav of FETCH is
 
 	-- incremented pc used as input for next fetch
 	signal pc : std_logic_vector(addr_width - 1 downto 0) := (others => '0');
-	signal clk_rom : std_logic;
+	signal clk_rom : std_logic := '0';
 
 begin
 

@@ -23,7 +23,7 @@ end entity REG;
 architecture behav of REG is
 
 	type reg_file is array(7 downto 0) of std_logic_vector(7 downto 0);
-	signal regs : reg_file;
+	signal regs : reg_file := (0 => x"00", 1 => x"00", 2 => x"00", 3 => x"00", 4 => x"00", 5 => x"00", 6 => x"00", 7 => x"00");
 
 begin
 

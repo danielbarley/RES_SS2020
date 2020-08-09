@@ -134,6 +134,16 @@ architecture behav of CPU is
 		);
 	end component WRITE_BACK;
 
+	component END_STAGE is
+		port (
+			clk : in std_logic := '0';
+			tr_in : in std_logic_vector(2 downto 0) := (others => '0');
+			write_data_in : in std_logic_vector( 7 downto 0) := (others => '0');
+			tr_out : out std_logic_vector(2 downto 0) := (others => '0');
+			write_data_out : out std_logic_vector(7 downto 0) := (others => '0')
+		);
+	end component END_STAGE;
+
 	component MUX2x1 is
 		port (
 			s1 : in std_logic_vector(7 downto 0);
@@ -206,11 +216,13 @@ architecture behav of CPU is
 
 	signal end_execute_tr : std_logic_vector(2 downto 0) := (others => '0');
 	signal end_execute_write_data : std_logic_vector(7 downto 0) := (others => '0');
+	signal end_tr_out : std_logic_vector(2 downto 0) := (others => '0');
+	signal end_data_out : std_logic_vector(7 downto 0) := (others => '0');
 
 begin
 
 	MY_CLK : CLK port map (reset, inclk, clock);
-	MUX_NEXT_PC : MUX_PC port map (pc_mux_in_branch, pc_mux_in_inc, pc_mux_sel, pc_mux_out);
+	MUX_NEXT_PC : MUX_PC port map (pc_mux_in_inc, pc_mux_in_branch, pc_mux_sel, pc_mux_out);
 	FETCH_STAGE : FETCH port map (clock, stall, pc_mux_out, fetch_decode_ins, fetch_decode_pc, pc_mux_in_inc);
 	DECODE_STAGE : DECODE port map (
 		clock,
@@ -275,10 +287,24 @@ begin
 		write_back_decode_wb_data,
 		write_back_decode_wb_enable
 	);
+	FINAL_STAGE : END_STAGE port map (
+		clock,
+		write_back_execute_tr,
+		write_back_decode_wb_data,
+		end_tr_out,
+		end_data_out
+	);
 
+	memory_execute_tr <= memory_write_back_tr;
 	write_back_decode_wb_addr <= write_back_execute_tr;
-	output <= write_back_execute_write_data;
-
+	write_back_execute_write_data <= memory_write_back_write_data;
+	pc_mux_in_branch <= execute_memory_imm;
+	end_execute_tr <= end_tr_out;
+	end_execute_write_data <= end_data_out;
+	output <= write_back_decode_wb_data;
+	execute_decode_opcode_execute <= execute_memory_opcode;
+	execute_decode_tr_execute <= execute_memory_tr;
+	memory_execute_alu_out <= memory_write_back_write_data;
 
 end behav;
 

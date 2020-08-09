@@ -108,12 +108,12 @@ architecture behav of EXECUTE is
 	signal sel_mux_op2 : std_logic_vector(1 downto 0);
 	signal mux_op2_out : std_logic_vector(7 downto 0);
 
-	signal sel_mux_imm : std_logic;
+	signal sel_mux_imm : std_logic := '0';
 	signal mux_imm_out : std_logic_vector(7 downto 0);
 
 begin
 
-	ALU1 : ALU port map (clk_alu, reset_alu, mux_imm_out, mux_op2_out, ins_alu, alu_out_out);
+	ALU1 : ALU port map (clk_alu, reset_alu, mux_imm_out, mux_op2_out, ins_alu, alu_out_out, flags);
 	MUX_ALU_OP1 : MUX4x1 port map (op1, alu_out_memory, write_data_write_back, write_data_end, sel_mux_op1, mux_op1_out);
 	MUX_ALU_OP2 : MUX4x1 port map (op2, alu_out_memory, write_data_write_back, write_data_end, sel_mux_op2, mux_op2_out);
 	MUX_IMM : MUX2x1 port map (imm(7 downto 0), mux_op1_out, sel_mux_imm, mux_imm_out);
@@ -132,11 +132,11 @@ begin
 	-- from register file
 	mux_alu_op1_control : process (s1, tr_memory, tr_write_back, tr_end)
 	begin
-		if (s1 = tr_memory) then
+		if ((s1 = tr_memory) and (s1 /= "000")) then
 			sel_mux_op1 <= "01";
-		elsif (s1 = tr_write_back) then
+		elsif ((s1 = tr_write_back) and (s1 /= "000")) then
 			sel_mux_op1 <= "10";
-		elsif (s1 = tr_end) then
+		elsif ((s1 = tr_end) and (s1 /= "000")) then
 			sel_mux_op1 <= "11";
 		else
 			sel_mux_op1 <= "00";
@@ -144,11 +144,11 @@ begin
 	end process;
 	mux_alu_op2_control : process (s2, tr_memory, tr_write_back, tr_end)
 	begin
-		if (s2 = tr_memory ) then
+		if ((s2 = tr_memory) and (s2 /= "000")) then
 			sel_mux_op2 <= "01";
-		elsif (s2 = tr_write_back) then
+		elsif ((s2 = tr_write_back) and (s2 /= "000")) then
 			sel_mux_op2 <= "10";
-		elsif (s2 = tr_end) then
+		elsif ((s2 = tr_end) and (s2 /= "000")) then
 			sel_mux_op2 <= "11";
 		else
 			sel_mux_op2 <= "00";

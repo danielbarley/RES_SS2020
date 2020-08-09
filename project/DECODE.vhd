@@ -8,31 +8,31 @@ entity DECODE is
 	);
 	port (
 		-- control signals
-		clk : in std_logic;
+		clk : in std_logic := '0';
 		-- I/O
 		-- Inputs from previous stage
-		pc_in : in std_logic_vector(addr_width - 1 downto 0);
-		ins_in : in std_logic_vector(23 downto 0);
+		pc_in : in std_logic_vector(addr_width - 1 downto 0) := (others => '0');
+		ins_in : in std_logic_vector(23 downto 0) := (others => '0');
 		-- inputs from Execute
-		stomp : in std_logic;
+		stomp : in std_logic := '0';
 		-- inputs from write back stage
-		wb_data : in std_logic_vector(7 downto 0);
-		wb_addr : in std_logic_vector(2 downto 0);
-		wb_enable : in std_logic;
+		wb_data : in std_logic_vector(7 downto 0) := (others => '0');
+		wb_addr : in std_logic_vector(2 downto 0) := (others => '0');
+		wb_enable : in std_logic := '0';
 		-- opcode/tr from execute stage needed for stalling pipeline
-		opcode_execute : in std_logic_vector(4 downto 0);
-		tr_execute : in std_logic_vector(2 downto 0);
+		opcode_execute : in std_logic_vector(4 downto 0) := (others => '0');
+		tr_execute : in std_logic_vector(2 downto 0) := (others => '0');
 		-- control for other stages
-		stall_out : out std_logic;
+		stall_out : out std_logic := '0';
 		-- output for EXECUTE stage
-		pc_out : out std_logic_vector(addr_width - 1 downto 0);
-		opcode_out : out std_logic_vector(4 downto 0);
-		tr_out : out std_logic_vector(2 downto 0);
-		s1_out : out std_logic_vector(2 downto 0);
-		s2_out : out std_logic_vector(2 downto 0);
-		imm_out : out std_logic_vector(9 downto 0);
-		op1_out : out std_logic_vector(7 downto 0);
-		op2_out : out std_logic_vector(7 downto 0)
+		pc_out : out std_logic_vector(addr_width - 1 downto 0) := (others => '0');
+		opcode_out : out std_logic_vector(4 downto 0) := (others => '0');
+		tr_out : out std_logic_vector(2 downto 0) := (others => '0');
+		s1_out : out std_logic_vector(2 downto 0) := (others => '0');
+		s2_out : out std_logic_vector(2 downto 0) := (others => '0');
+		imm_out : out std_logic_vector(9 downto 0) := (others => '0');
+		op1_out : out std_logic_vector(7 downto 0) := (others => '0');
+		op2_out : out std_logic_vector(7 downto 0) := (others => '0')
 	);
 end entity DECODE;
 
@@ -56,15 +56,15 @@ architecture behav of DECODE is
 		);
 	end component REG;
 
-	signal pc : std_logic_vector(addr_width - 1 downto 0);
-	signal ins : std_logic_vector(23 downto 0);
+	signal pc : std_logic_vector(addr_width - 1 downto 0) := (others => '0');
+	signal ins : std_logic_vector(23 downto 0) := (others => '0');
 
 	-- dissect instruction into components
-	signal opcode : std_logic_vector(4 downto 0); -- opcode
-	signal tr : std_logic_vector(2 downto 0); -- target register use 000 for masking
-	signal s1 : std_logic_vector(2 downto 0); -- register of first operand
-	signal s2 : std_logic_vector(2 downto 0); -- register of second operand
-	signal imm : std_logic_vector(9 downto 0);
+	signal opcode : std_logic_vector(4 downto 0) := (others => '0'); -- opcode
+	signal tr : std_logic_vector(2 downto 0) := (others => '0'); -- target register use 000 for masking
+	signal s1 : std_logic_vector(2 downto 0) := (others => '0'); -- register of first operand
+	signal s2 : std_logic_vector(2 downto 0) := (others => '0'); -- register of second operand
+	signal imm : std_logic_vector(9 downto 0) := (others => '0');
 
 	signal clk_reg : std_logic := '0';
 	signal reset_reg : std_logic := '0';
@@ -115,7 +115,7 @@ begin
 	control : process (tr, s1, s2, tr_execute, opcode_execute)
 	begin
 		if ((opcode_execute = "10000") or (opcode_execute = "10001")) then
-			if ((tr_execute = tr) or (tr_execute = s1) or (tr_execute = s2)) then
+			if (((tr_execute = tr) or (tr_execute = s1) or (tr_execute = s2)) and tr_execute /= "000") then
 				stall <= '1';
 			else
 				stall <= '0';
