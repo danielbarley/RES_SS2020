@@ -231,11 +231,11 @@ begin
 				ins_alu <= "0001";
 			when "11011" => -- BGT
 				ins_alu <= "0001";
-			when "11100" => -- BLT
+			when "11100" => -- BGE
 				ins_alu <= "0001";
-			when "11101" => -- n/A
+			when "11101" => -- BLT
 				ins_alu <= "0000";
-			when "11110" => -- n/A
+			when "11110" => -- BLE
 				ins_alu <= "0000";
 			when "11111" => -- n/A
 				ins_alu <= "0000";

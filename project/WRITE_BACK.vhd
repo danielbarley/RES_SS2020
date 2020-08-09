@@ -31,7 +31,7 @@ begin
 		if (tr = "000") then
 			reg_wen_out <= '0';
 		else
-			reg_wen_out <= '0';
+			reg_wen_out <= '1';
 		end if;
 	end process;
 

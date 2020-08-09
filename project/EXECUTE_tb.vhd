@@ -132,7 +132,16 @@ begin
 		opcode_in <= "00110";
 		wait for clk_period;
 			
-	
+
+		opcode_in <= "11000";
+		wait for clk_period;
+
+		opcode_in <= "00011";
+		wait for clk_period;
+
+		opcode_in <= "00000";
+		tr_memory <= "110";
+		alu_out_memory <= (1 downto 0 => '1', others => '0');
 	end process;
 
 
