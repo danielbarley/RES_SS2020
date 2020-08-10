@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
 use IEEE.std_logic_unsigned.ALL;
+use std.textio.ALL;
 
 entity MEMORY_tb is
 end entity;
@@ -58,9 +59,14 @@ begin
 	clk <= not clk after half_clk_period;
 
 	process
+	VARIABLE l: LINE;
 	begin
 	
 		wait until Clk'event and Clk='0';
+	
+		write(l, now);
+		write(l, string'(": Set opcode_in to store operation"));
+		writeline(output, l);
 	
 		opcode_in <= "10010";
 		imm_in <= (2 => '1', others => '0');
@@ -68,9 +74,14 @@ begin
 		
 		wait for clk_period;
 		
+		write(l, now);
+		write(l, string'(": Set opcode_in to load operation, stored value is loaded"));
+		writeline(output, l);
+		
 		opcode_in <= "10000";
 		
 		wait for clk_period;
+		assert(write_data_out = store_data_in) report "Wrong output data";
 	
 	end process;
 

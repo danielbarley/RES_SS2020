@@ -113,35 +113,71 @@ begin
 		s1_in <= "010";
 		s2_in <= "110";
 		imm_in <= (others => '0');
+		tr_memory <= "000";
 
 		alu_out_memory <= (others => '0');
 		write_data_write_back <= (others => '0');
 		write_data_end <= (others => '0');
 		
 		wait for clk_period;
-		assert(alu_out_out = op1_in + op2_in) report "Wrong ALU output";
+		assert(alu_out_out = (op1_in + op2_in)) report "Wrong ALU output 1";
 		assert(tr_out = tr_in) report "Wrong target register output";
 		assert(opcode_out = opcode_in) report "Wrong opcode output";
 		assert(imm_out = imm_in) report "Wrong immediate output";
+		
+		write(l, now);
+		write(l, string'(": Set opcode to immediate addition, alu output is imm_in + op2_in = 0x58"));
+		writeline(output, l);
 		
 		opcode_in <= "00001";
 		imm_in <= (4 downto 2 => '1', others => '0');
 		
 		wait for clk_period;
+		assert(alu_out_out = (imm_in + op2_in)) report "Wrong ALU output 2";
+		assert(tr_out = tr_in) report "Wrong target register output";
+		assert(opcode_out = opcode_in) report "Wrong opcode output";
+		assert(imm_out = imm_in) report "Wrong immediate output";
+		
+		write(l, now);
+		write(l, string'(": Set opcode to negation, alu output is not op1_in = 0x07"));
+		writeline(output, l);
 		
 		opcode_in <= "00110";
 		wait for clk_period;
-			
+		assert(alu_out_out = (not op1_in)) report "Wrong ALU output 3";
+		assert(tr_out = tr_in) report "Wrong target register output";
+		assert(opcode_out = opcode_in) report "Wrong opcode output";
+		assert(imm_out = imm_in) report "Wrong immediate output";
 
+		write(l, now);
+		write(l, string'(": Set opcode to branch, stomp bit is set"));
+		writeline(output, l);
+		
 		opcode_in <= "11000";
 		wait for clk_period;
+		assert(stomp_out = '1') report "Stomp not set";
 
-		opcode_in <= "00011";
+		write(l, now);
+		write(l, string'(": NOP operation is set due to stomp, stomp bit is reset"));
+		writeline(output, l);
+		
+		opcode_in <= "00000";
 		wait for clk_period;
-
+		assert(alu_out_out = (op1_in + op2_in)) report "Wrong ALU output 4";
+		assert(tr_out = "000") report "Wrong target register output";
+		assert(opcode_out = "00000") report "Wrong opcode output";
+		assert(imm_out = "0000000000") report "Wrong immediate output";
+		assert(stomp_out = '0') report "Stomp not reset";
+		
+		write(l, now);
+		write(l, string'(": Set tr_memory, test if correct value is loaded for alu input"));
+		writeline(output, l);
+		
 		opcode_in <= "00000";
 		tr_memory <= "110";
 		alu_out_memory <= (1 downto 0 => '1', others => '0');
+		wait for clk_period;
+		
 	end process;
 
 
